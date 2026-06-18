@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PurrlyAI</title>
+  <meta name="description" content="">
+  <meta name="robots" content="index,follow">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #fff8f1;
+      --card: rgba(255, 255, 255, 0.9);
+      --text: #251814;
+      --muted: #765f55;
+      --accent: #f97348;
+      --accent-dark: #c84625;
+      --border: rgba(99, 61, 43, 0.14);
+      --shadow: 0 24px 60px rgba(120, 65, 36, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 15%, rgba(255, 205, 171, 0.9), transparent 28rem),
+        radial-gradient(circle at 85% 5%, rgba(255, 151, 117, 0.6), transparent 22rem),
+        linear-gradient(135deg, #fff8f1 0%, #ffe7d8 100%);
+    }
+
+    main {
+      width: min(100%, 980px);
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 26px;
+      align-items: center;
+      min-height: calc(100vh - 96px);
+    }
+
+    .badge {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--accent-dark);
+      background: rgba(255, 255, 255, 0.58);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .card {
+      padding: clamp(28px, 5vw, 56px);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 16px 0 14px;
+      font-size: clamp(32px, 6vw, 56px);
+      line-height: 1.22;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      max-width: 680px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(17px, 2.4vw, 22px);
+      line-height: 1.7;
+    }
+
+    .domains {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+      margin-top: 34px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .domain-link {
+      display: flex;
+      min-height: 76px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      color: inherit;
+      background: #fff;
+      text-decoration: none;
+      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .domain-link:hover,
+    .domain-link:focus-visible {
+      border-color: rgba(249, 115, 72, 0.55);
+      box-shadow: 0 16px 34px rgba(249, 115, 72, 0.14);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .domain-name {
+      display: block;
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .domain-label {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .arrow {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--accent);
+      font-weight: 900;
+    }
+
+    .notice {
+      margin-top: 28px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      color: var(--muted);
+      background: rgba(255, 246, 238, 0.9);
+      line-height: 1.7;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 14px 10px;
+      }
+
+      .hero {
+        gap: 16px;
+        min-height: calc(100vh - 28px);
+      }
+
+      .card {
+        padding: 22px 16px;
+        border-radius: 24px;
+      }
+
+      .badge {
+        padding: 7px 10px;
+        font-size: 13px;
+      }
+
+      h1 {
+        margin: 12px 0 10px;
+        font-size: clamp(28px, 8vw, 40px);
+        line-height: 1.28;
+        letter-spacing: -0.01em;
+      }
+
+      .lead {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .domains {
+        gap: 10px;
+        margin-top: 22px;
+      }
+
+      .domain-link {
+        min-height: 64px;
+        padding: 14px 16px;
+        border-radius: 18px;
+      }
+
+      .domain-name {
+        font-size: 18px;
+      }
+
+      .arrow {
+        width: 32px;
+        height: 32px;
+      }
+
+      .notice {
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        line-height: 1.6;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="card">
+        <span class="badge" id="badge"></span>
+        <h1 id="page-title"></h1>
+        <p class="lead" id="lead"></p>
+
+        <ul class="domains" id="domain-list"></ul>
+
+        <p class="notice" id="notice"></p>
+      </div>
+
+      <footer id="footer"></footer>
+    </section>
+  </main>
+
+  <script>
+    const domainHosts = [
+      "purrly.ai",
+      "quackai.cc",
+      "quack.im"
+      // 添加备用域名示例：
+      // "purrly.example"
+    ];
+
+    const messages = {
+      zh: {
+        htmlLang: "zh-CN",
+        title: "PurrlyAI 永久导航页",
+        description: "PurrlyAI 的永久导航页。如果暂时无法访问，可通过这里找到可用入口。",
+        badge: "PurrlyAI 永久导航页",
+        heading: "找不到 PurrlyAI？从这里找我们。",
+        lead: "请收藏当前页面：<strong>purrlyai.link</strong>。如果主域名暂时无法访问，我们会在这里保留可用入口，帮助你重新找到我们。",
+        domainListLabel: "可用域名列表",
+        domainPrimary: "主域名",
+        domainBackup: "备用域名",
+        notice: "建议优先访问主域名。若无法打开，请依次尝试备用域名。域名状态可能随时变化，请以本页展示为准。",
+        footer: "© {year} PurrlyAI. 请收藏本页。"
+      },
+      zh_Hant: {
+        htmlLang: "zh-TW",
+        title: "PurrlyAI 永久導航頁",
+        description: "PurrlyAI 的永久導航頁。如果暫時無法存取，可透過這裡找到可用入口。",
+        badge: "PurrlyAI 永久導航頁",
+        heading: "找不到 PurrlyAI？從這裡找我們。",
+        lead: "請收藏目前頁面：<strong>purrlyai.link</strong>。如果主網域暫時無法存取，我們會在這裡保留可用入口，幫助你重新找到我們。",
+        domainListLabel: "可用網域列表",
+        domainPrimary: "主網域",
+        domainBackup: "備用網域",
+        notice: "建議優先存取主網域。若無法開啟，請依序嘗試備用網域。網域狀態可能隨時變化，請以本頁展示為準。",
+        footer: "© {year} PurrlyAI. 請收藏本頁。"
+      },
+      en: {
+        htmlLang: "en",
+        title: "PurrlyAI Permanent Navigation",
+        description: "PurrlyAI permanent navigation page. If you cannot reach us, use this page to find available entry points.",
+        badge: "PurrlyAI Permanent Navigation",
+        heading: "Can't find PurrlyAI? Find us here.",
+        lead: "Bookmark this page: <strong>purrlyai.link</strong>. If the primary domain is temporarily unavailable, we keep available entry points here to help you find us again.",
+        domainListLabel: "Available domains",
+        domainPrimary: "Primary domain",
+        domainBackup: "Backup domain",
+        notice: "Try the primary domain first. If it does not open, try the backup domains in order. Availability may change, so please refer to this page.",
+        footer: "© {year} PurrlyAI. Keep this page bookmarked."
+      },
+      jp: {
+        htmlLang: "ja",
+        title: "PurrlyAI 永久ナビゲーションページ",
+        description: "PurrlyAI の永久ナビゲーションページ。一時的にアクセスできない場合は、ここから利用可能な入口を確認できます。",
+        badge: "PurrlyAI 永久ナビゲーションページ",
+        heading: "PurrlyAI が見つからない？ここから。",
+        lead: "このページをブックマークしてください：<strong>purrlyai.link</strong>。メインドメインに一時的にアクセスできない場合でも、ここに利用可能な入口を掲載し、再び私たちを見つけられるようにします。",
+        domainListLabel: "利用可能なドメイン",
+        domainPrimary: "メインドメイン",
+        domainBackup: "予備ドメイン",
+        notice: "まずメインドメインへのアクセスをお試しください。開けない場合は、予備ドメインを順に試してください。状況は変わる可能性があるため、このページの表示をご確認ください。",
+        footer: "© {year} PurrlyAI. このページをブックマークしてください。"
+      }
+    };
+
+    const langAliases = {
+      zh: "zh",
+      "zh-cn": "zh",
+      "zh-hans": "zh",
+      "zh-sg": "zh",
+      zh_hans: "zh",
+      zh_hant: "zh_Hant",
+      "zh-hant": "zh_Hant",
+      "zh-tw": "zh_Hant",
+      "zh-hk": "zh_Hant",
+      "zh-mo": "zh_Hant",
+      en: "en",
+      "en-us": "en",
+      "en-gb": "en",
+      jp: "jp",
+      ja: "jp",
+      "ja-jp": "jp"
+    };
+
+    function normalizeLang(value) {
+      if (!value) return "";
+      return value.trim().toLowerCase().replace(/_/g, "-");
+    }
+
+    function resolveLangFromValue(value) {
+      const normalized = normalizeLang(value);
+      if (!normalized) return "";
+
+      if (langAliases[normalized]) {
+        return langAliases[normalized];
+      }
+
+      const base = normalized.split("-")[0];
+      if (base === "zh") {
+        if (normalized.includes("hant") || ["tw", "hk", "mo"].includes(normalized.split("-")[1])) {
+          return "zh_Hant";
+        }
+        return "zh";
+      }
+
+      if (base === "ja" || base === "jp") return "jp";
+      if (base === "en") return "en";
+
+      return "";
+    }
+
+    function detectLang() {
+      const params = new URLSearchParams(window.location.search);
+      const paramLang = resolveLangFromValue(params.get("lang"));
+      if (paramLang) return paramLang;
+
+      const browserLangs = navigator.languages?.length
+        ? navigator.languages
+        : [navigator.language || "zh"];
+
+      for (const browserLang of browserLangs) {
+        const resolved = resolveLangFromValue(browserLang);
+        if (resolved) return resolved;
+      }
+
+      return "zh";
+    }
+
+    function renderDomains(t) {
+      const list = document.getElementById("domain-list");
+      list.setAttribute("aria-label", t.domainListLabel);
+      list.replaceChildren();
+
+      domainHosts.forEach((host, index) => {
+        const item = document.createElement("li");
+        const link = document.createElement("a");
+        const text = document.createElement("span");
+        const name = document.createElement("span");
+        const tag = document.createElement("span");
+        const arrow = document.createElement("span");
+
+        link.className = "domain-link";
+        link.href = `https://${host}`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        name.className = "domain-name";
+        name.textContent = host;
+
+        tag.className = "domain-label";
+        tag.textContent = index === 0 ? t.domainPrimary : t.domainBackup;
+
+        arrow.className = "arrow";
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.textContent = "→";
+
+        text.append(name, tag);
+        link.append(text, arrow);
+        item.append(link);
+        list.append(item);
+      });
+    }
+
+    function renderPage() {
+      const lang = detectLang();
+      const t = messages[lang] || messages.zh;
+      const year = new Date().getFullYear();
+
+      document.documentElement.lang = t.htmlLang;
+      document.title = t.title;
+
+      const description = document.querySelector('meta[name="description"]');
+      if (description) description.setAttribute("content", t.description);
+
+      document.getElementById("badge").textContent = t.badge;
+      document.getElementById("page-title").textContent = t.heading;
+      document.getElementById("lead").innerHTML = t.lead;
+      document.getElementById("notice").textContent = t.notice;
+      document.getElementById("footer").textContent = t.footer.replace("{year}", year);
+
+      renderDomains(t);
+    }
+
+    renderPage();
+  </script>
+</body>
+</html>
