@@ -3,428 +3,725 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PurrlyAI</title>
-  <meta name="description" content="">
+  <title>AI妄想 节点与APP下载</title>
+  <meta name="description" content="AI妄想是一个沉浸式 AI 角色互动平台。这里提供项目介绍、APP下载入口，以及可用节点。">
   <meta name="robots" content="index,follow">
-  <link rel="icon" href="/favicon.ico" sizes="any" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
   <style>
     :root {
       color-scheme: light;
-      --bg: #fff8f1;
-      --card: rgba(255, 255, 255, 0.9);
-      --text: #251814;
-      --muted: #765f55;
-      --accent: #f97348;
-      --accent-dark: #c84625;
-      --border: rgba(99, 61, 43, 0.14);
-      --shadow: 0 24px 60px rgba(120, 65, 36, 0.14);
+      --page: #fff8fc;
+      --mist: #f1fbf8;
+      --surface: #ffffff;
+      --soft: #fff0f7;
+      --ink: #211622;
+      --muted: #685e6d;
+      --quiet: #928696;
+      --line: #eadce7;
+      --brand: #f30d7c;
+      --brand-deep: #64156f;
+      --cyan: #087f86;
+      --green: #1c9b6b;
+      --coral: #f37965;
+      --blue: #347ee9;
+      --shadow: 0 22px 56px rgba(100, 21, 111, 0.13);
+      --radius: 8px;
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      background: var(--page);
+    }
+
     body {
       min-height: 100vh;
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
       background:
-        radial-gradient(circle at 20% 15%, rgba(255, 205, 171, 0.9), transparent 28rem),
-        radial-gradient(circle at 85% 5%, rgba(255, 151, 117, 0.6), transparent 22rem),
-        linear-gradient(135deg, #fff8f1 0%, #ffe7d8 100%);
+        linear-gradient(180deg, rgba(255, 248, 252, 0.98) 0%, rgba(241, 251, 248, 0.96) 58%, #fff 100%),
+        repeating-linear-gradient(90deg, rgba(100, 21, 111, 0.05) 0 1px, transparent 1px 78px);
     }
 
-    main {
-      width: min(100%, 980px);
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(100%, 1160px);
       margin: 0 auto;
-      padding: 48px 20px;
+      padding: 28px 24px 42px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 8px 0 28px;
+    }
+
+    .brand-lockup {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .brand-lockup img {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 28px rgba(243, 13, 124, 0.2);
+    }
+
+    .brand-lockup span {
+      overflow-wrap: anywhere;
+      font-size: 18px;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .nav a {
+      display: inline-flex;
+      min-height: 38px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--brand-deep);
+      background: rgba(255, 255, 255, 0.74);
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
     .hero {
       display: grid;
-      gap: 26px;
+      grid-template-columns: minmax(0, 1.06fr) minmax(340px, 0.72fr);
+      gap: 48px;
       align-items: center;
-      min-height: calc(100vh - 96px);
+      padding: 34px 0 42px;
     }
 
-    .badge {
+    .eyebrow {
       display: inline-flex;
-      width: fit-content;
       align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      color: var(--accent-dark);
-      background: rgba(255, 255, 255, 0.58);
+      gap: 10px;
+      margin: 0 0 18px;
+      color: var(--cyan);
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 900;
     }
 
-    .card {
-      padding: clamp(28px, 5vw, 56px);
-      border: 1px solid var(--border);
-      border-radius: 32px;
-      background: var(--card);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
+    .eyebrow::before {
+      display: inline-block;
+      width: 28px;
+      height: 2px;
+      background: var(--cyan);
+      content: "";
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      overflow-wrap: anywhere;
     }
 
     h1 {
-      max-width: 760px;
-      margin: 16px 0 14px;
-      font-size: clamp(32px, 6vw, 56px);
-      line-height: 1.22;
-      letter-spacing: -0.02em;
-    }
-
-    .lead {
       max-width: 680px;
       margin: 0;
-      color: var(--muted);
-      font-size: clamp(17px, 2.4vw, 22px);
-      line-height: 1.7;
+      font-size: 64px;
+      line-height: 1.04;
+      letter-spacing: 0;
     }
 
-    .domains {
+    .intro {
+      max-width: 720px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.8;
+    }
+
+    .download-button {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 14px;
+      border: 1px solid transparent;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 900;
+      text-decoration: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    .domain-link:hover,
+    .domain-link:focus-visible,
+    .download-button:hover,
+    .download-button:focus-visible {
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .access-panel {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
       gap: 14px;
-      margin-top: 34px;
+      margin-bottom: 12px;
+    }
+
+    .panel-title h2,
+    .section-heading h2 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .panel-title span {
+      color: var(--quiet);
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .domain-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
       padding: 0;
       list-style: none;
     }
 
     .domain-link {
-      display: flex;
-      min-height: 76px;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: 16px;
-      padding: 18px 20px;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      color: inherit;
-      background: #fff;
+      align-items: center;
+      min-height: 86px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 14px 36px rgba(100, 21, 111, 0.08);
       text-decoration: none;
-      transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
     }
 
     .domain-link:hover,
     .domain-link:focus-visible {
-      border-color: rgba(249, 115, 72, 0.55);
-      box-shadow: 0 16px 34px rgba(249, 115, 72, 0.14);
-      transform: translateY(-2px);
-      outline: none;
+      border-color: rgba(243, 13, 124, 0.38);
+      box-shadow: 0 18px 38px rgba(243, 13, 124, 0.14);
     }
 
     .domain-name {
       display: block;
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.2;
     }
 
     .domain-label {
       display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 14px;
+      margin-top: 8px;
+      color: var(--quiet);
+      font-size: 13px;
+      font-weight: 800;
     }
 
-    .arrow {
-      display: grid;
+    .open-mark {
+      display: inline-grid;
       width: 36px;
       height: 36px;
-      flex: 0 0 auto;
       place-items: center;
       border-radius: 50%;
       color: #fff;
-      background: var(--accent);
+      background: var(--brand-deep);
       font-weight: 900;
     }
 
-    .notice {
-      margin-top: 28px;
-      padding: 18px 20px;
-      border-radius: 20px;
+    .section {
+      padding: 44px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-heading {
+      max-width: 760px;
+    }
+
+    .section-heading p {
+      margin: 10px 0 0;
       color: var(--muted);
-      background: rgba(255, 246, 238, 0.9);
-      line-height: 1.7;
+      line-height: 1.75;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .feature,
+    .experience-item,
+    .download-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.84);
+    }
+
+    .feature {
+      min-height: 214px;
+      padding: 22px;
+    }
+
+    .feature:nth-child(2) {
+      background: rgba(241, 251, 248, 0.94);
+    }
+
+    .feature:nth-child(3) {
+      background: rgba(255, 248, 230, 0.94);
+    }
+
+    .feature:nth-child(4) {
+      background: rgba(240, 246, 255, 0.94);
+    }
+
+    .feature-tag {
+      display: inline-flex;
+      min-height: 28px;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: var(--brand-deep);
+      background: var(--soft);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .feature h3,
+    .experience-item h3 {
+      margin: 18px 0 10px;
+      font-size: 20px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .feature p,
+    .experience-item p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.72;
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .experience-item {
+      min-height: 174px;
+      padding: 22px;
+    }
+
+    .experience-index {
+      display: inline-grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--cyan);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .hero-download {
+      max-width: 720px;
+      margin-top: 30px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 16px 38px rgba(100, 21, 111, 0.08);
+    }
+
+    .download-head {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .download-head img {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius);
+    }
+
+    .download-head h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .download-head p {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .download-card {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      background: rgba(255, 248, 252, 0.8);
+    }
+
+    .platform-title {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+    }
+
+    .platform-icon {
+      display: inline-grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .platform-ios {
+      background: linear-gradient(135deg, #f0828b, #9d8df1);
+    }
+
+    .platform-android {
+      background: linear-gradient(135deg, #42bd89, #4e9de8);
+    }
+
+    .platform-title h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .version {
+      display: block;
+      margin-top: 3px;
+      color: var(--quiet);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .download-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .download-button {
+      width: 100%;
+      color: #fff;
+      background: linear-gradient(90deg, var(--brand) 0%, #8d76ec 100%);
+      box-shadow: 0 12px 26px rgba(243, 13, 124, 0.16);
+    }
+
+    .download-button.android {
+      background: linear-gradient(90deg, var(--green) 0%, #4e9de8 100%);
     }
 
     footer {
-      color: var(--muted);
+      padding: 28px 0 0;
+      color: var(--quiet);
       font-size: 14px;
       text-align: center;
     }
 
-    @media (max-width: 640px) {
-      main {
-        padding: 14px 10px;
-      }
-
+    @media (max-width: 980px) {
       .hero {
-        gap: 16px;
-        min-height: calc(100vh - 28px);
+        grid-template-columns: 1fr;
+        gap: 34px;
       }
 
-      .card {
-        padding: 22px 16px;
-        border-radius: 24px;
+      .feature-grid,
+      .experience-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 700px) {
+      .page {
+        padding: 16px 12px 30px;
       }
 
-      .badge {
-        padding: 7px 10px;
+      .topbar {
+        align-items: flex-start;
+        padding-bottom: 18px;
+      }
+
+      .nav {
+        gap: 8px;
+      }
+
+      .nav a {
+        min-height: 36px;
+        padding: 0 10px;
         font-size: 13px;
       }
 
-      h1 {
-        margin: 12px 0 10px;
-        font-size: clamp(28px, 8vw, 40px);
-        line-height: 1.28;
-        letter-spacing: -0.01em;
+      .brand-lockup img {
+        width: 38px;
+        height: 38px;
       }
 
-      .lead {
+      .brand-lockup span {
         font-size: 16px;
-        line-height: 1.6;
       }
 
-      .domains {
-        gap: 10px;
-        margin-top: 22px;
+      .hero {
+        padding: 18px 0 34px;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .intro {
+        font-size: 17px;
+        line-height: 1.72;
+      }
+
+      .download-grid,
+      .feature-grid,
+      .experience-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-title {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .panel-title h2,
+      .section-heading h2 {
+        font-size: 24px;
       }
 
       .domain-link {
-        min-height: 64px;
-        padding: 14px 16px;
-        border-radius: 18px;
+        min-height: 78px;
+        padding: 15px;
       }
 
       .domain-name {
-        font-size: 18px;
+        font-size: 19px;
       }
 
-      .arrow {
+      .open-mark {
         width: 32px;
         height: 32px;
       }
 
-      .notice {
-        margin-top: 18px;
-        padding: 14px 16px;
-        border-radius: 16px;
-        line-height: 1.6;
+      .feature,
+      .experience-item {
+        min-height: 0;
+        padding: 18px;
       }
+
+      .download-head {
+        grid-template-columns: 1fr;
+      }
+
     }
   </style>
 </head>
 <body>
-  <main>
+  <main class="page">
+    <header class="topbar" aria-label="AI妄想">
+      <a class="brand-lockup" href="https://purrlyai.link" rel="noopener noreferrer">
+        <img src="android-chrome-192x192.png" alt="AI妄想">
+        <span>AI妄想</span>
+      </a>
+      <nav class="nav" aria-label="页面导航">
+        <a href="#nodes">节点</a>
+        <a href="#features">特色</a>
+        <a href="#download">APP下载</a>
+      </nav>
+    </header>
+
     <section class="hero" aria-labelledby="page-title">
-      <div class="card">
-        <span class="badge" id="badge"></span>
-        <h1 id="page-title"></h1>
-        <p class="lead" id="lead"></p>
+      <div>
+        <p class="eyebrow">AI 角色互动 · 沉浸剧情</p>
+        <h1 id="page-title">AI妄想</h1>
+        <p class="intro">
+          在这里，你可以挣脱现实的束缚，走进一个只属于你们的故事。靠近每个让你心动的角色，
+          在一来一回的试探里慢慢拉近距离，让每一次对话都成为即兴的幻想，每一次选择都在编织独一无二的剧情。
+        </p>
 
-        <ul class="domains" id="domain-list"></ul>
+        <div class="hero-download" id="download" aria-labelledby="download-title">
+          <div class="download-head">
+            <img src="android-chrome-192x192.png" alt="AI妄想">
+            <div>
+              <h2 id="download-title">APP下载</h2>
+              <p>移动端已开放下载，iOS 快速安装，Android 可下载安装包。</p>
+            </div>
+          </div>
 
-        <p class="notice" id="notice"></p>
+          <div class="download-grid">
+            <article class="download-card">
+              <div class="platform-title">
+                <span class="platform-icon platform-ios" aria-hidden="true">iOS</span>
+                <div>
+                  <h3>iOS 快速安装</h3>
+                  <span class="version">版本 1.10.3</span>
+                </div>
+              </div>
+              <a class="download-button" href="https://ios-install.purrlyai.link/" target="_blank" rel="noopener noreferrer">打开安装页</a>
+            </article>
+
+            <article class="download-card">
+              <div class="platform-title">
+                <span class="platform-icon platform-android" aria-hidden="true">APK</span>
+                <div>
+                  <h3>Android 版</h3>
+                  <span class="version">版本 1.10.3</span>
+                </div>
+              </div>
+              <a class="download-button android" href="https://download.purrlyai.link/purrlyai-android-1.10.3.apk" target="_blank" rel="noopener noreferrer">下载 APK</a>
+            </article>
+          </div>
+        </div>
       </div>
 
-      <footer id="footer"></footer>
+      <aside class="access-panel" id="nodes" aria-labelledby="node-title">
+        <div>
+          <div class="panel-title">
+            <h2 id="node-title">节点</h2>
+          </div>
+          <ul class="domain-list" aria-label="AI妄想可用节点列表">
+            <li>
+              <a class="domain-link" href="https://purrly.ai" target="_blank" rel="noopener noreferrer" aria-label="打开节点01">
+                <span>
+                  <span class="domain-name">节点01</span>
+                </span>
+                <span class="open-mark" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li>
+              <a class="domain-link" href="https://purrlyai.link" target="_blank" rel="noopener noreferrer" aria-label="打开节点02">
+                <span>
+                  <span class="domain-name">节点02</span>
+                </span>
+                <span class="open-mark" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
     </section>
+
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="section-heading">
+        <h2 id="features-title">这里不需要任何门槛</h2>
+        <p>选一个角色，写下你的回应，开启属于你的故事。聊天、调整、推进剧情，都可以在同一个体验里完成。</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature">
+          <span class="feature-tag">每日免费额度</span>
+          <h3>每天都有小鱼干</h3>
+          <p>每日赠送免费额度，让你无需付费也能开启聊天；签到与互动还能持续获得更多。</p>
+        </article>
+        <article class="feature">
+          <span class="feature-tag">二大模式</span>
+          <h3>轻松聊，也能深度演</h3>
+          <p>普通模式直接推进剧情；深度扮演可额外指导 AI 的回复方向、语气与节奏。</p>
+        </article>
+        <article class="feature">
+          <span class="feature-tag">四驱模型</span>
+          <h3>丰俭由人，自由切换</h3>
+          <p>自营模型、高级模型、厂商 API、自定义 API，多种驱动方式总有一款适合你。</p>
+        </article>
+        <article class="feature">
+          <span class="feature-tag">八种工具</span>
+          <h3>对话细节随手可调</h3>
+          <p>模型、令牌、参数、人设、角色、笔记、故事书、世界书等工具，随时服务当前剧情。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="experience-title">
+      <div class="section-heading">
+        <h2 id="experience-title">你能体验到什么</h2>
+        <p>每一次对话都是一场即兴演出，你的表达会让角色回应、剧情偏转，也让关系一点点发生变化。</p>
+      </div>
+
+      <div class="experience-grid">
+        <article class="experience-item">
+          <span class="experience-index">01</span>
+          <h3>沉浸式角色扮演</h3>
+          <p>化身主角，以不同身份深入故事世界，与 AI 角色进行深度而亲密的互动。</p>
+        </article>
+        <article class="experience-item">
+          <span class="experience-index">02</span>
+          <h3>由你主导的剧情</h3>
+          <p>你的每一句话都在推动故事走向，AI 会顺着你的节奏即兴演绎。</p>
+        </article>
+        <article class="experience-item">
+          <span class="experience-index">03</span>
+          <h3>随时可调的体验</h3>
+          <p>模型、人设、世界观设定和临场备注都能按需调整，让互动更贴近你的想象。</p>
+        </article>
+      </div>
+    </section>
+
+    <footer>© 2026 AI妄想. 请收藏本页，必要时切换节点访问。</footer>
   </main>
-
-  <script>
-    const domainHosts = [
-      "purrly.ai",
-      "quackai.cc",
-      "quack.im"
-      // 添加备用域名示例：
-      // "purrly.example"
-    ];
-
-    const messages = {
-      zh: {
-        htmlLang: "zh-CN",
-        title: "PurrlyAI 永久导航页",
-        description: "PurrlyAI 的永久导航页。如果暂时无法访问，可通过这里找到可用入口。",
-        badge: "PurrlyAI 永久导航页",
-        heading: "找不到 PurrlyAI？从这里找我们。",
-        lead: "请收藏当前页面：<strong>purrlyai.link</strong>。如果主域名暂时无法访问，我们会在这里保留可用入口，帮助你重新找到我们。",
-        domainListLabel: "可用域名列表",
-        domainPrimary: "主域名",
-        domainBackup: "备用域名",
-        notice: "建议优先访问主域名。若无法打开，请依次尝试备用域名。域名状态可能随时变化，请以本页展示为准。",
-        footer: "© {year} PurrlyAI. 请收藏本页。"
-      },
-      zh_Hant: {
-        htmlLang: "zh-TW",
-        title: "PurrlyAI 永久導航頁",
-        description: "PurrlyAI 的永久導航頁。如果暫時無法存取，可透過這裡找到可用入口。",
-        badge: "PurrlyAI 永久導航頁",
-        heading: "找不到 PurrlyAI？從這裡找我們。",
-        lead: "請收藏目前頁面：<strong>purrlyai.link</strong>。如果主網域暫時無法存取，我們會在這裡保留可用入口，幫助你重新找到我們。",
-        domainListLabel: "可用網域列表",
-        domainPrimary: "主網域",
-        domainBackup: "備用網域",
-        notice: "建議優先存取主網域。若無法開啟，請依序嘗試備用網域。網域狀態可能隨時變化，請以本頁展示為準。",
-        footer: "© {year} PurrlyAI. 請收藏本頁。"
-      },
-      en: {
-        htmlLang: "en",
-        title: "PurrlyAI Permanent Navigation",
-        description: "PurrlyAI permanent navigation page. If you cannot reach us, use this page to find available entry points.",
-        badge: "PurrlyAI Permanent Navigation",
-        heading: "Can't find PurrlyAI? Find us here.",
-        lead: "Bookmark this page: <strong>purrlyai.link</strong>. If the primary domain is temporarily unavailable, we keep available entry points here to help you find us again.",
-        domainListLabel: "Available domains",
-        domainPrimary: "Primary domain",
-        domainBackup: "Backup domain",
-        notice: "Try the primary domain first. If it does not open, try the backup domains in order. Availability may change, so please refer to this page.",
-        footer: "© {year} PurrlyAI. Keep this page bookmarked."
-      },
-      jp: {
-        htmlLang: "ja",
-        title: "PurrlyAI 永久ナビゲーションページ",
-        description: "PurrlyAI の永久ナビゲーションページ。一時的にアクセスできない場合は、ここから利用可能な入口を確認できます。",
-        badge: "PurrlyAI 永久ナビゲーションページ",
-        heading: "PurrlyAI が見つからない？ここから。",
-        lead: "このページをブックマークしてください：<strong>purrlyai.link</strong>。メインドメインに一時的にアクセスできない場合でも、ここに利用可能な入口を掲載し、再び私たちを見つけられるようにします。",
-        domainListLabel: "利用可能なドメイン",
-        domainPrimary: "メインドメイン",
-        domainBackup: "予備ドメイン",
-        notice: "まずメインドメインへのアクセスをお試しください。開けない場合は、予備ドメインを順に試してください。状況は変わる可能性があるため、このページの表示をご確認ください。",
-        footer: "© {year} PurrlyAI. このページをブックマークしてください。"
-      }
-    };
-
-    const langAliases = {
-      zh: "zh",
-      "zh-cn": "zh",
-      "zh-hans": "zh",
-      "zh-sg": "zh",
-      zh_hans: "zh",
-      zh_hant: "zh_Hant",
-      "zh-hant": "zh_Hant",
-      "zh-tw": "zh_Hant",
-      "zh-hk": "zh_Hant",
-      "zh-mo": "zh_Hant",
-      en: "en",
-      "en-us": "en",
-      "en-gb": "en",
-      jp: "jp",
-      ja: "jp",
-      "ja-jp": "jp"
-    };
-
-    function normalizeLang(value) {
-      if (!value) return "";
-      return value.trim().toLowerCase().replace(/_/g, "-");
-    }
-
-    function resolveLangFromValue(value) {
-      const normalized = normalizeLang(value);
-      if (!normalized) return "";
-
-      if (langAliases[normalized]) {
-        return langAliases[normalized];
-      }
-
-      const base = normalized.split("-")[0];
-      if (base === "zh") {
-        if (normalized.includes("hant") || ["tw", "hk", "mo"].includes(normalized.split("-")[1])) {
-          return "zh_Hant";
-        }
-        return "zh";
-      }
-
-      if (base === "ja" || base === "jp") return "jp";
-      if (base === "en") return "en";
-
-      return "";
-    }
-
-    function detectLang() {
-      const params = new URLSearchParams(window.location.search);
-      const paramLang = resolveLangFromValue(params.get("lang"));
-      if (paramLang) return paramLang;
-
-      const browserLangs = navigator.languages?.length
-        ? navigator.languages
-        : [navigator.language || "zh"];
-
-      for (const browserLang of browserLangs) {
-        const resolved = resolveLangFromValue(browserLang);
-        if (resolved) return resolved;
-      }
-
-      return "zh";
-    }
-
-    function renderDomains(t) {
-      const list = document.getElementById("domain-list");
-      list.setAttribute("aria-label", t.domainListLabel);
-      list.replaceChildren();
-
-      domainHosts.forEach((host, index) => {
-        const item = document.createElement("li");
-        const link = document.createElement("a");
-        const text = document.createElement("span");
-        const name = document.createElement("span");
-        const tag = document.createElement("span");
-        const arrow = document.createElement("span");
-
-        link.className = "domain-link";
-        link.href = `https://${host}`;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-
-        name.className = "domain-name";
-        name.textContent = host;
-
-        tag.className = "domain-label";
-        tag.textContent = index === 0 ? t.domainPrimary : t.domainBackup;
-
-        arrow.className = "arrow";
-        arrow.setAttribute("aria-hidden", "true");
-        arrow.textContent = "→";
-
-        text.append(name, tag);
-        link.append(text, arrow);
-        item.append(link);
-        list.append(item);
-      });
-    }
-
-    function renderPage() {
-      const lang = detectLang();
-      const t = messages[lang] || messages.zh;
-      const year = new Date().getFullYear();
-
-      document.documentElement.lang = t.htmlLang;
-      document.title = t.title;
-
-      const description = document.querySelector('meta[name="description"]');
-      if (description) description.setAttribute("content", t.description);
-
-      document.getElementById("badge").textContent = t.badge;
-      document.getElementById("page-title").textContent = t.heading;
-      document.getElementById("lead").innerHTML = t.lead;
-      document.getElementById("notice").textContent = t.notice;
-      document.getElementById("footer").textContent = t.footer.replace("{year}", year);
-
-      renderDomains(t);
-    }
-
-    renderPage();
-  </script>
 </body>
 </html>
