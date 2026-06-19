@@ -3,9 +3,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI妄想 节点与APP下载</title>
-  <meta name="description" content="AI妄想是一个沉浸式 AI 角色互动平台。这里提供项目介绍、APP下载入口，以及可用节点。">
+  <title>AI妄想最新官方地址发布页 | 防迷路·无限制AI角色扮演</title>
+  <meta name="description" content="致力于打造全网最好的无限制 AI 角色扮演与沉浸剧情平台，支持多模型驱动、深度扮演与无限制生成，并提供稳定官网节点与 iOS / Android APP 下载。">
+  <meta name="keywords" content="AI妄想,AI妄想官网,AI妄想最新地址,AI妄想官方地址,AI妄想发布页,AI妄想入口,AI妄想防迷路,AI妄想下载,AI妄想APP,AI妄想节点,无限制AI,AI角色扮演,沉浸剧情,AI女友,多模型">
   <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#f30d7c">
+  <link rel="canonical" href="https://aisese.ai/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AI妄想">
+  <meta property="og:title" content="AI妄想 · 无限制 AI 角色扮演">
+  <meta property="og:description" content="挑一个让你心动的 TA，捏一个只属于你们的越界剧本——无限制的互动、随心的剧情，把妄想烧到尽头。iOS / Android 一键下载。">
+  <meta property="og:url" content="https://aisese.ai/">
+  <meta property="og:image" content="https://aisese.ai/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="zh_CN">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI妄想 · 无限制 AI 角色扮演">
+  <meta name="twitter:description" content="挑一个让你心动的 TA，捏一个只属于你们的越界剧本——无限制的互动、随心的剧情，把妄想烧到尽头。iOS / Android 一键下载。">
+  <meta name="twitter:image" content="https://aisese.ai/og-cover.png">
+
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -30,6 +51,7 @@
       --blue: #347ee9;
       --shadow: 0 22px 56px rgba(100, 21, 111, 0.13);
       --radius: 8px;
+      --header-h: 88px;
     }
 
     * {
@@ -37,18 +59,89 @@
     }
 
     html {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 16px);
       background: var(--page);
     }
 
     body {
       min-height: 100vh;
       margin: 0;
+      isolation: isolate;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
       color: var(--ink);
+      /* === 纹理①：点阵（保留备用，取消注释即可切回） ===
       background:
-        linear-gradient(180deg, rgba(255, 248, 252, 0.98) 0%, rgba(241, 251, 248, 0.96) 58%, #fff 100%),
-        repeating-linear-gradient(90deg, rgba(100, 21, 111, 0.05) 0 1px, transparent 1px 78px);
+        radial-gradient(rgba(100, 21, 111, 0.12) 1.5px, transparent 1.6px),
+        linear-gradient(180deg, #fff8fc 0%, #f1fbf8 58%, #ffffff 100%);
+      background-position: 0 0, center;
+      background-size: 22px 22px, auto;
+      background-repeat: repeat, no-repeat;
+      background-attachment: fixed, scroll;
+      === 纹理①结束 === */
+
+      /* === 纹理②：网格线（保留备用，取消注释即可切回） ===
+      background:
+        linear-gradient(rgba(100, 21, 111, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(100, 21, 111, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, #fff8fc 0%, #f1fbf8 58%, #ffffff 100%);
+      background-position: 0 0, 0 0, center;
+      background-size: 34px 34px, 34px 34px, auto;
+      background-repeat: repeat, repeat, no-repeat;
+      background-attachment: fixed, fixed, scroll;
+      === 纹理②结束 === */
+
+      /* === 纹理③：噪点颗粒 grain（保留备用，取消注释即可切回） ===
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E"),
+        linear-gradient(180deg, #fff8fc 0%, #f1fbf8 58%, #ffffff 100%);
+      background-position: 0 0, center;
+      background-size: 160px 160px, auto;
+      background-repeat: repeat, no-repeat;
+      background-attachment: fixed, scroll;
+      === 纹理③结束 === */
+
+      /* === 纹理④：Mesh 光斑（保留备用，取消注释即可切回） ===
+      background:
+        radial-gradient(38% 32% at 14% 18%, rgba(243, 13, 124, 0.13), transparent 60%),
+        radial-gradient(44% 38% at 88% 12%, rgba(141, 118, 236, 0.15), transparent 62%),
+        radial-gradient(50% 44% at 78% 82%, rgba(8, 127, 134, 0.11), transparent 60%),
+        radial-gradient(40% 40% at 18% 88%, rgba(243, 121, 101, 0.11), transparent 60%),
+        linear-gradient(180deg, #fff8fc 0%, #f1fbf8 58%, #ffffff 100%);
+      background-position: center;
+      background-size: auto;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      === 纹理④结束 === */
+
+      /* === 纹理⑥：点阵 + Mesh 光斑 + grain 颗粒（当前生效） === */
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E"),
+        radial-gradient(rgba(100, 21, 111, 0.1) 1.5px, transparent 1.6px),
+        radial-gradient(38% 32% at 14% 18%, rgba(243, 13, 124, 0.13), transparent 60%),
+        radial-gradient(44% 38% at 88% 12%, rgba(141, 118, 236, 0.15), transparent 62%),
+        radial-gradient(50% 44% at 78% 82%, rgba(8, 127, 134, 0.11), transparent 60%),
+        radial-gradient(40% 40% at 18% 88%, rgba(243, 121, 101, 0.11), transparent 60%),
+        linear-gradient(180deg, #fff8fc 0%, #f1fbf8 58%, #ffffff 100%);
+      background-position: 0 0, 0 0, center, center, center, center, center;
+      background-size: 160px 160px, 22px 22px, auto, auto, auto, auto, auto;
+      background-repeat: repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+      background-attachment: fixed, fixed, fixed, fixed, fixed, fixed, fixed;
     }
+
+    body::before {
+      position: fixed;
+      inset: calc(var(--header-h) + 24px) 0 0 0;
+      z-index: -1;
+      background-image: url("bg.png");
+      background-position: calc(50% + 30px) top;
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      content: "";
+      pointer-events: none;
+    }
+
 
     a {
       color: inherit;
@@ -61,11 +154,23 @@
     }
 
     .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 248, 252, 0.62);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      padding: 8px 0 28px;
+      width: min(100%, 1160px);
+      margin: 0 auto;
+      padding: 20px 24px 22px;
     }
 
     .brand-lockup {
@@ -85,9 +190,27 @@
       box-shadow: 0 12px 28px rgba(243, 13, 124, 0.2);
     }
 
-    .brand-lockup span {
+    .brand-text {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
       overflow-wrap: anywhere;
-      font-size: 18px;
+      font-size: 20px;
+      background: linear-gradient(100deg, #f30d7c 0%, #b5179e 38%, #8d76ec 70%, #4895ef 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .brand-tagline {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--cyan);
     }
 
     .nav {
@@ -99,6 +222,7 @@
 
     .nav a {
       display: inline-flex;
+      cursor: pointer;
       min-height: 38px;
       align-items: center;
       justify-content: center;
@@ -113,11 +237,17 @@
       white-space: nowrap;
     }
 
+    .top-inner {
+      width: min(100%, 1160px);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1.06fr) minmax(340px, 0.72fr);
-      gap: 48px;
-      align-items: center;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      align-items: stretch;
       padding: 34px 0 42px;
     }
 
@@ -146,20 +276,43 @@
       overflow-wrap: anywhere;
     }
 
-    h1 {
+    .brand-h1 {
+      margin: 0;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
+
+    .hero-title {
       max-width: 680px;
       margin: 0;
       font-size: 64px;
+      font-weight: 900;
       line-height: 1.04;
       letter-spacing: 0;
     }
 
+    .intro-block {
+      padding: 54px 0 0;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--ink);
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1.4;
+      letter-spacing: 0;
+      text-align: center;
+    }
+
     .intro {
-      max-width: 720px;
-      margin: 22px 0 0;
+      margin: 16px 0 0;
       color: var(--muted);
-      font-size: 20px;
-      line-height: 1.8;
+      font-size: 16px;
+      line-height: 2.7;
+      text-align: center;
+      text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(255, 255, 255, 0.9);
     }
 
     .download-button {
@@ -367,8 +520,6 @@
     }
 
     .hero-download {
-      max-width: 720px;
-      margin-top: 30px;
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -377,10 +528,6 @@
     }
 
     .download-head {
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
-      gap: 12px;
-      align-items: center;
       margin-bottom: 12px;
     }
 
@@ -397,11 +544,83 @@
       letter-spacing: 0;
     }
 
+    .dl-title-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .dl-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 10px;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(90deg, var(--brand) 0%, #8d76ec 100%);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
     .download-head p {
       margin: 5px 0 0;
       color: var(--muted);
       font-size: 14px;
       line-height: 1.55;
+    }
+
+    .node-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .node-grid {
+      display: grid;
+      flex: 1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-rows: repeat(3, 1fr);
+      grid-auto-rows: 1fr;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .node-grid li {
+      display: flex;
+    }
+
+    .node-item {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      min-height: 40px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 248, 252, 0.8);
+      text-decoration: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    .node-item:hover,
+    .node-item:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(243, 13, 124, 0.38);
+      box-shadow: 0 12px 26px rgba(243, 13, 124, 0.12);
+      outline: none;
+    }
+
+    .node-name {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .node-mark {
+      color: var(--brand-deep);
+      font-weight: 900;
     }
 
     .download-grid {
@@ -465,6 +684,12 @@
       line-height: 1.6;
     }
 
+    .ios-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
     .download-button {
       width: 100%;
       color: #fff;
@@ -481,12 +706,512 @@
       color: var(--quiet);
       font-size: 14px;
       text-align: center;
+      text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(255, 255, 255, 0.9);
+    }
+
+    .footer-note {
+      max-width: 960px;
+      margin: 0 auto 14px;
+      font-size: 13px;
+      line-height: 1.9;
+      text-align: left;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    .feature-rows {
+      display: grid;
+      gap: 0;
+    }
+
+    .feature-rows > .section-heading {
+      max-width: 760px;
+      margin: 0 auto 8px;
+      text-align: center;
+    }
+
+    .feature-rows > .section-heading p {
+      text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(255, 255, 255, 0.9);
+    }
+
+    .feature-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 48px;
+      align-items: center;
+      padding: 44px 0;
+    }
+
+    .feature-row + .feature-row {
+      border-top: 1px solid var(--line);
+    }
+
+    .feature-row.reverse .feature-media {
+      order: -1;
+    }
+
+    .feature-copy h3 {
+      margin: 16px 0 12px;
+      font-size: 30px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .feature-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.85;
+    }
+
+    .feature-points {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .feature-points li {
+      position: relative;
+      padding-left: 26px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .feature-points li::before {
+      position: absolute;
+      top: 9px;
+      left: 4px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--brand);
+      content: "";
+    }
+
+    .feature-points strong {
+      color: var(--ink);
+    }
+
+    .feature-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 20px 0 0;
+    }
+
+    .feature-chips span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 14px;
+      border-radius: 999px;
+      color: var(--brand-deep);
+      background: var(--soft);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin: 20px 0 0;
+    }
+
+    .tool-grid span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .feature-block {
+      padding: 48px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .fb-head {
+      max-width: 760px;
+      margin: 0 auto 30px;
+      text-align: center;
+    }
+
+    .fb-head h3 {
+      margin: 14px 0 10px;
+      font-size: 30px;
+      line-height: 1.3;
+      letter-spacing: 0;
+    }
+
+    .fb-head p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .fb-head p,
+    .feature-copy p,
+    .feature-copy .feature-points li {
+      text-shadow: 0 1px 6px rgba(255, 255, 255, 0.9), 0 1px 2px rgba(255, 255, 255, 0.9);
+    }
+
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .model-card {
+      position: relative;
+      overflow: hidden;
+      padding: 22px 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.62);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .model-card::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--brand), #8d76ec);
+      content: "";
+    }
+
+    .model-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(243, 13, 124, 0.35);
+      box-shadow: 0 18px 40px rgba(100, 21, 111, 0.12);
+    }
+
+    .mc-num {
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--brand-deep);
+      opacity: 0.5;
+    }
+
+    .model-card h4 {
+      margin: 10px 0 8px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .mc-tag {
+      display: inline-block;
+      padding: 1px 8px;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(90deg, var(--green), #4e9de8);
+      font-size: 11px;
+      font-weight: 800;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .model-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .tools-cards {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .tool-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.62);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(243, 13, 124, 0.3);
+      box-shadow: 0 14px 30px rgba(100, 21, 111, 0.1);
+    }
+
+    .tc-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tool-card .t-emoji {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .tool-card h4 {
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+
+    .tool-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .feature-media {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 560px;
+      margin: 0;
+      padding: 28px;
+      border-radius: 22px;
+      background:
+        radial-gradient(120% 78% at 72% 18%, rgba(243, 13, 124, 0.14), transparent 60%),
+        radial-gradient(110% 90% at 18% 92%, rgba(141, 118, 236, 0.16), transparent 55%),
+        rgba(255, 255, 255, 0.45);
+      overflow: hidden;
+    }
+
+    .phone-mock {
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      width: auto;
+      height: 480px;
+      aspect-ratio: 9 / 19.5;
+      padding: 16px;
+      border: 1px dashed rgba(100, 21, 111, 0.3);
+      border-radius: 20px;
+      background:
+        repeating-linear-gradient(45deg, rgba(243, 13, 124, 0.05) 0 12px, transparent 12px 24px),
+        rgba(255, 255, 255, 0.82);
+      color: var(--quiet);
+      font-size: 14px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .phone-mock .slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
+    .phone-mock .slide-anim {
+      opacity: 0;
+      animation: phone-slideshow 12s ease-in-out infinite;
+    }
+
+    @keyframes phone-slideshow {
+      0%, 40% { opacity: 0; }
+      50%, 90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .phone-mock .slide-anim {
+        animation: none;
+      }
+    }
+
+    .feature-media--chat {
+      place-items: center;
+    }
+
+    .chat-mock {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      width: min(100%, 300px);
+      height: 580px;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    /* 1. 底层背景：三张图叠放，快速渐变切换 */
+    .chat-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .chat-bg .bg-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      opacity: 0;
+      transition: opacity 50ms linear;
+    }
+
+    .chat-bg .bg-slide.is-active {
+      opacity: 1;
+    }
+
+    /* 2. 上层：贴底的上下结构 */
+    .chat-input {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+    }
+
+    /* 2.3 最上部：圆角顶 */
+    .ci-top {
+      height: 14px;
+      background: #191b31;
+      border-radius: 20px 20px 0 0;
+    }
+
+    /* 2.2 中间部：打字区，默认 30px，内容增多时自适应增高 */
+    .ci-body {
+      min-height: 30px;
+      padding: 4px 18px 10px;
+      background: #191b31;
+      color: #c2c6d8;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .ci-body .type-text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .ci-body .type-caret {
+      display: inline-block;
+      width: 2px;
+      height: 1.05em;
+      margin-left: 1px;
+      background: #ffffff;
+      vertical-align: text-bottom;
+      animation: ci-blink 1s steps(1) infinite;
+    }
+
+    @keyframes ci-blink {
+      0%, 50% { opacity: 1; }
+      50.01%, 100% { opacity: 0; }
+    }
+
+    /* 2.1 最底部：chat-footer 图 */
+    .ci-footer {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .img-accordion {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      height: 600px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .img-accordion .ia-panel {
+      position: relative;
+      flex: 1 1 0;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      overflow: hidden;
+      cursor: pointer;
+      background: #fff;
+      transition: flex-grow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .img-accordion .ia-panel.is-active {
+      flex-grow: 5;
+    }
+
+    .img-accordion .ia-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .img-accordion .ia-panel + .ia-panel::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+      width: 26px;
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.5), transparent);
+      content: "";
+      pointer-events: none;
+    }
+
+    .img-accordion .ia-panel::after {
+      position: absolute;
+      inset: 0;
+      background: rgba(33, 22, 34, 0.22);
+      transition: opacity 0.5s ease;
+      content: "";
+      pointer-events: none;
+    }
+
+    .img-accordion .ia-panel.is-active::after {
+      opacity: 0;
     }
 
     @media (max-width: 980px) {
       .hero {
         grid-template-columns: 1fr;
         gap: 34px;
+      }
+
+      .feature-row {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 32px 0;
+      }
+
+      .feature-row.reverse .feature-media {
+        order: 0;
+      }
+
+      .feature-media {
+        min-height: 0;
+        padding: 24px;
+      }
+
+      .phone-mock {
+        height: 440px;
+      }
+
+      .model-grid,
+      .tools-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .feature-grid,
@@ -500,18 +1225,26 @@
         padding: 16px 12px 30px;
       }
 
-      .topbar {
-        align-items: flex-start;
-        padding-bottom: 18px;
+      .top-inner {
+        padding: 0 12px;
+      }
+
+      .topbar-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 12px;
       }
 
       .nav {
+        width: 100%;
         gap: 8px;
       }
 
       .nav a {
+        flex: 1;
         min-height: 36px;
-        padding: 0 10px;
+        padding: 0 8px;
         font-size: 13px;
       }
 
@@ -520,7 +1253,7 @@
         height: 38px;
       }
 
-      .brand-lockup span {
+      .brand-name {
         font-size: 16px;
       }
 
@@ -528,13 +1261,17 @@
         padding: 18px 0 34px;
       }
 
-      h1 {
+      .hero-title {
         font-size: 42px;
       }
 
+      .lead {
+        font-size: 22px;
+      }
+
       .intro {
-        font-size: 17px;
-        line-height: 1.72;
+        font-size: 14px;
+        line-height: 1.85;
       }
 
       .download-grid,
@@ -552,6 +1289,20 @@
       .panel-title h2,
       .section-heading h2 {
         font-size: 24px;
+      }
+
+      .feature-copy h3,
+      .fb-head h3 {
+        font-size: 23px;
+      }
+
+      .model-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .img-accordion {
+        height: auto;
+        aspect-ratio: 4 / 5;
       }
 
       .domain-link {
@@ -580,148 +1331,304 @@
 
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "name": "AI妄想",
+        "url": "https://aisese.ai/",
+        "inLanguage": "zh-CN",
+        "description": "致力于打造全网最好的无限制 AI 角色扮演与沉浸剧情平台，支持多模型驱动、深度扮演与无限制生成，并提供稳定官网节点与 iOS / Android APP 下载。"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "AI妄想",
+        "applicationCategory": "EntertainmentApplication",
+        "operatingSystem": "iOS, Android",
+        "url": "https://aisese.ai/",
+        "description": "致力于打造全网最好的无限制 AI 角色扮演与沉浸剧情平台，支持多模型驱动、深度扮演与无限制生成，并提供稳定官网节点与 iOS / Android APP 下载。",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "CNY"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-  <main class="page">
-    <header class="topbar" aria-label="AI妄想">
-      <a class="brand-lockup" href="https://purrlyai.link" rel="noopener noreferrer">
-        <img src="android-chrome-192x192.png" alt="AI妄想">
-        <span>AI妄想</span>
-      </a>
+  <header class="topbar" aria-label="AI妄想">
+    <div class="topbar-inner">
+      <h1 class="brand-h1">
+        <a class="brand-lockup" href="https://aisese.ai" rel="noopener noreferrer">
+          <img src="android-chrome-192x192.png" alt="AI妄想 - 沉浸式AI角色扮演聊天平台 LOGO">
+          <span class="brand-text">
+            <span class="brand-name">AI妄想</span>
+            <span class="brand-tagline">R18 · 无限制 · 深度扮演</span>
+          </span>
+        </a>
+      </h1>
       <nav class="nav" aria-label="页面导航">
-        <a href="#nodes">节点</a>
-        <a href="#features">特色</a>
+        <a href="#nodes">官网节点</a>
         <a href="#download">APP下载</a>
+        <a href="#features">特色功能</a>
+        <a href="https://docs.aisese.ai" target="_blank" rel="noopener noreferrer">玩法指南</a>
       </nav>
-    </header>
+    </div>
+  </header>
 
-    <section class="hero" aria-labelledby="page-title">
-      <div>
-        <p class="eyebrow">AI 角色互动 · 沉浸剧情</p>
-        <h1 id="page-title">AI妄想</h1>
-        <p class="intro">
-          在这里，你可以挣脱现实的束缚，走进一个只属于你们的故事。靠近每个让你心动的角色，
-          在一来一回的试探里慢慢拉近距离，让每一次对话都成为即兴的幻想，每一次选择都在编织独一无二的剧情。
-        </p>
+  <section class="top-area">
+    <div class="top-inner">
+    <section class="intro-block" aria-label="AI妄想">
+      <p class="lead">
+        华语圈顶流的 R18 AI 妄想引擎<br>
+        挑一个心动的 TA，捏一个越界的世界，让无限制的互动与画面，把妄想烧到尽头
+      </p>
+      <p class="intro">
+        在这里，没有现实的顾忌，只有专属你们的禁忌剧本<br>
+        挑一个让你心跳失控的角色，在欲拒还迎的拉扯里步步逼近<br>
+        尽情犯规、毫无限制，想说的想做的都尽情释放<br>
+        随时改写剧情走向，让故事永远顺着你的心意发展<br>
+        在与 TA 越界而炽热的纠缠里，沉沦进一场停不下来的妄想
+      </p>
+    </section>
 
-        <div class="hero-download" id="download" aria-labelledby="download-title">
-          <div class="download-head">
-            <img src="android-chrome-192x192.png" alt="AI妄想">
-            <div>
-              <h2 id="download-title">APP下载</h2>
-              <p>移动端已开放下载，iOS 快速安装，Android 可下载安装包。</p>
-            </div>
-          </div>
-
-          <div class="download-grid">
-            <article class="download-card">
-              <div class="platform-title">
-                <span class="platform-icon platform-ios" aria-hidden="true">iOS</span>
-                <div>
-                  <h3>iOS 快速安装</h3>
-                  <span class="version">版本 1.10.3</span>
-                </div>
-              </div>
-              <a class="download-button" href="https://jorvexia.xyz/v9c7yf6/6XcsK5K363lvQfWVNfOp5p" target="_blank" rel="noopener noreferrer">打开安装页</a>
-            </article>
-
-            <article class="download-card">
-              <div class="platform-title">
-                <span class="platform-icon platform-android" aria-hidden="true">APK</span>
-                <div>
-                  <h3>Android 版</h3>
-                  <span class="version">版本 1.10.3</span>
-                </div>
-              </div>
-              <a class="download-button android" href="https://download.purrlyai.link/purrlyai-android-1.10.3.apk" target="_blank" rel="noopener noreferrer">下载 APK</a>
-            </article>
+    <section class="hero" aria-label="下载与节点">
+      <div class="hero-download node-panel" id="nodes" aria-labelledby="node-title">
+        <div class="download-head">
+          <div>
+            <h2 id="node-title">官网节点</h2>
+            <p>多个高速节点任选其一进入，被墙时可随时切换</p>
           </div>
         </div>
+
+        <ul class="node-grid" aria-label="AI妄想可用节点列表">
+          <li>
+            <a class="node-item" href="https://aisese.ai" target="_blank" rel="noopener noreferrer" aria-label="打开节点01">
+              <span class="node-name">节点 01</span>
+              <span class="node-mark" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a class="node-item" href="https://purrlyai.link" target="_blank" rel="noopener noreferrer" aria-label="打开节点02">
+              <span class="node-name">节点 02</span>
+              <span class="node-mark" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        </ul>
       </div>
 
-      <aside class="access-panel" id="nodes" aria-labelledby="node-title">
-        <div>
-          <div class="panel-title">
-            <h2 id="node-title">节点</h2>
+      <div class="hero-download" id="download" aria-labelledby="download-title">
+        <div class="download-head">
+          <div>
+            <div class="dl-title-row">
+              <h2 id="download-title">APP下载</h2>
+              <span class="dl-badge">强烈推荐</span>
+            </div>
+            <p>覆盖双平台，全网最佳 APP 体验，即装即玩</p>
           </div>
-          <ul class="domain-list" aria-label="AI妄想可用节点列表">
-            <li>
-              <a class="domain-link" href="https://purrly.ai" target="_blank" rel="noopener noreferrer" aria-label="打开节点01">
-                <span>
-                  <span class="domain-name">节点01</span>
-                </span>
-                <span class="open-mark" aria-hidden="true">↗</span>
-              </a>
-            </li>
-            <li>
-              <a class="domain-link" href="https://purrlyai.link" target="_blank" rel="noopener noreferrer" aria-label="打开节点02">
-                <span>
-                  <span class="domain-name">节点02</span>
-                </span>
-                <span class="open-mark" aria-hidden="true">↗</span>
-              </a>
-            </li>
+        </div>
+
+        <div class="download-grid">
+          <article class="download-card">
+            <div class="platform-title">
+              <span class="platform-icon platform-android" aria-hidden="true">APK</span>
+              <div>
+                <h3>Android 版</h3>
+                <span class="version">版本 1.10.3</span>
+              </div>
+            </div>
+            <div class="ios-buttons">
+              <a class="download-button android" href="https://pub-9f9a433bef504b16b1b30cd09cc00b91.r2.dev/purrlyai-android-1.10.3.apk" target="_blank" rel="noopener noreferrer">立即安装</a>
+              <a class="download-button android" href="https://github.com/aisese365/aisese365.github.io/releases/download/v1.10.3/purrlyai-android-1.10.3.apk" target="_blank" rel="noopener noreferrer">备用安装</a>
+            </div>
+          </article>
+
+          <article class="download-card">
+            <div class="platform-title">
+              <span class="platform-icon platform-ios" aria-hidden="true">iOS</span>
+              <div>
+                <h3>iOS 快速安装</h3>
+                <span class="version">版本 1.10.3</span>
+              </div>
+            </div>
+            <div class="ios-buttons">
+              <a class="download-button" href="https://jorvexia.xyz/v9c7yf6/6XcsK5K363lvQfWVNfOp5p" target="_blank" rel="noopener noreferrer">立即安装</a>
+              <a class="download-button" href="https://jolvirex.xyz/mjlwct/6XcsK5K363lvQfWVNfOp5p" target="_blank" rel="noopener noreferrer">备用安装</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    </div>
+  </section>
+
+  <main class="page">
+    <section class="section feature-rows" id="features" aria-labelledby="features-title">
+      <div class="section-heading">
+        <h2 id="features-title">零门槛上手，搭配整套上头的玩法</h2>
+        <p>无论你是想轻松开聊的新手，还是追求极致掌控的老玩家，这里都有适合你的玩法</p>
+      </div>
+
+      <article class="feature-row">
+        <div class="feature-copy">
+          <span class="feature-tag">每日免费额度</span>
+          <h3>每天都有小鱼干空投</h3>
+          <p>每天登录就送免费「小鱼干」，不付费也能开聊。日常签到、互动还能持续到账，想玩多久都有底气。</p>
+          <div class="feature-chips">
+            <span>每日空投</span>
+            <span>签到追加</span>
+            <span>互动获取</span>
+            <span>0 元开聊</span>
+          </div>
+        </div>
+        <figure class="feature-media">
+          <div class="img-accordion">
+            <button class="ia-panel is-active" type="button"><img src="1-1.png" alt="每日免费额度截图 1"></button>
+            <button class="ia-panel" type="button"><img src="1-2.png" alt="每日免费额度截图 2"></button>
+            <button class="ia-panel" type="button"><img src="1-3.png" alt="每日免费额度截图 3"></button>
+          </div>
+        </figure>
+      </article>
+
+      <article class="feature-row reverse">
+        <div class="feature-copy">
+          <span class="feature-tag">两大模式</span>
+          <h3>轻松开聊，也能导演级深度扮演</h3>
+          <p>从一句话推进到逐帧把控，两种模式覆盖不同玩家的节奏，新手老手都能找到舒服的玩法。</p>
+          <ul class="feature-points">
+            <li><strong>普通模式</strong>：单个输入框，写下行动与台词，直接推进剧情，简单直接。</li>
+            <li><strong>深度扮演</strong>：多一个「指导」框，像导演一样把控 AI 的方向、语气与节奏，越界也不出戏。</li>
           </ul>
         </div>
-      </aside>
-    </section>
+        <figure class="feature-media feature-media--chat">
+          <div class="chat-mock">
+            <!-- 1. 底层背景：三张图对应三段指导，被底部输入栏覆盖 -->
+            <div class="chat-bg">
+              <img class="bg-slide is-active" src="c-1.png" alt="">
+              <img class="bg-slide" src="c-2.png" alt="">
+              <img class="bg-slide" src="c-3.png" alt="">
+            </div>
+            <!-- 2. 上层：上下结构，贴底 -->
+            <div class="chat-input">
+              <!-- 2.3 最上部：圆角顶 -->
+              <div class="ci-top"></div>
+              <!-- 2.2 中间部：打字区，默认 30px，自适应增高 -->
+              <div class="ci-body"><span class="type-text"></span><span class="type-caret"></span></div>
+              <!-- 2.1 最底部：chat-footer 图 -->
+              <img class="ci-footer" src="c-f-g.png" alt="指导输入栏">
+            </div>
+          </div>
+        </figure>
+      </article>
 
-    <section class="section" id="features" aria-labelledby="features-title">
-      <div class="section-heading">
-        <h2 id="features-title">这里不需要任何门槛</h2>
-        <p>选一个角色，写下你的回应，开启属于你的故事。聊天、调整、推进剧情，都可以在同一个体验里完成。</p>
-      </div>
-
-      <div class="feature-grid">
-        <article class="feature">
-          <span class="feature-tag">每日免费额度</span>
-          <h3>每天都有小鱼干</h3>
-          <p>每日赠送免费额度，让你无需付费也能开启聊天；签到与互动还能持续获得更多。</p>
-        </article>
-        <article class="feature">
-          <span class="feature-tag">二大模式</span>
-          <h3>轻松聊，也能深度演</h3>
-          <p>普通模式直接推进剧情；深度扮演可额外指导 AI 的回复方向、语气与节奏。</p>
-        </article>
-        <article class="feature">
+      <div class="feature-block">
+        <div class="fb-head">
           <span class="feature-tag">四驱模型</span>
-          <h3>丰俭由人，自由切换</h3>
-          <p>自营模型、高级模型、厂商 API、自定义 API，多种驱动方式总有一款适合你。</p>
-        </article>
-        <article class="feature">
-          <span class="feature-tag">八种工具</span>
-          <h3>对话细节随手可调</h3>
-          <p>模型、令牌、参数、人设、角色、笔记、故事书、世界书等工具，随时服务当前剧情。</p>
-        </article>
+          <h3>四种模型来源，丰俭由你</h3>
+          <p>从开箱即用到自由扩展，想要稳、还是想要花样，随你切换。</p>
+        </div>
+        <div class="model-grid">
+          <div class="model-card">
+            <span class="mc-num">01</span>
+            <h4>自营模型 <span class="mc-tag">含免费模型</span></h4>
+            <p>开箱即用、稳定可靠，零配置直接开聊。</p>
+          </div>
+          <div class="model-card">
+            <span class="mc-num">02</span>
+            <h4>高级模型</h4>
+            <p>接入 GLM、Kimi、Gemini、Claude 等主流大模型，一键切换、按需选用。</p>
+          </div>
+          <div class="model-card">
+            <span class="mc-num">03</span>
+            <h4>厂商 API</h4>
+            <p>主流厂商官方直连，按你的喜好自由选择。</p>
+          </div>
+          <div class="model-card">
+            <span class="mc-num">04</span>
+            <h4>自定义 API</h4>
+            <p>接入第三方通用接口，自由扩展你想用的模型。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-block">
+        <div class="fb-head">
+          <span class="feature-tag">八件套工具</span>
+          <h3>对话细节，随手掌控</h3>
+          <p>聊天界面随手可调，剧情的人物、设定与记忆，统统握在自己手里。</p>
+        </div>
+        <div class="tools-cards">
+          <div class="tool-card"><div class="tc-head"><span class="t-emoji">🤖</span><h4>模型</h4></div><p>随时切换驱动 AI 的模型</p></div>
+          <div class="tool-card"><div class="tc-head"><span class="t-emoji">🎫</span><h4>令牌</h4></div><p>掌控本轮上下文用量</p></div>
+          <div class="tool-card"><div class="tc-head"><span class="t-emoji">🎨</span><h4>预设</h4></div><p>一键切换 AI 的性格底色</p></div>
+          <div class="tool-card"><div class="tc-head"><span class="t-emoji">🎭</span><h4>人设</h4></div><p>设定你在故事里的身份</p></div>
+          <div class="tool-card"><div class="tc-head"><span class="t-emoji">👥</span><h4>角色</h4></div><p>多角色同台演出</p></div>
+          <div class="tool-card"><div class="tc-head"><span class="t-emoji">📝</span><h4>笔记</h4></div><p>强化 AI 的临场记忆</p></div>
+          <div class="tool-card"><div class="tc-head"><span class="t-emoji">📚</span><h4>故事书</h4></div><p>当前故事的专属设定</p></div>
+          <div class="tool-card"><div class="tc-head"><span class="t-emoji">🌍</span><h4>世界书</h4></div><p>可复用的世界观词条</p></div>
+        </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="experience-title">
-      <div class="section-heading">
-        <h2 id="experience-title">你能体验到什么</h2>
-        <p>每一次对话都是一场即兴演出，你的表达会让角色回应、剧情偏转，也让关系一点点发生变化。</p>
-      </div>
-
-      <div class="experience-grid">
-        <article class="experience-item">
-          <span class="experience-index">01</span>
-          <h3>沉浸式角色扮演</h3>
-          <p>化身主角，以不同身份深入故事世界，与 AI 角色进行深度而亲密的互动。</p>
-        </article>
-        <article class="experience-item">
-          <span class="experience-index">02</span>
-          <h3>由你主导的剧情</h3>
-          <p>你的每一句话都在推动故事走向，AI 会顺着你的节奏即兴演绎。</p>
-        </article>
-        <article class="experience-item">
-          <span class="experience-index">03</span>
-          <h3>随时可调的体验</h3>
-          <p>模型、人设、世界观设定和临场备注都能按需调整，让互动更贴近你的想象。</p>
-        </article>
-      </div>
-    </section>
-
-    <footer>© 2026 AI妄想. 请收藏本页，必要时切换节点访问。</footer>
+    <footer>
+      <p class="footer-note">
+        本页是 AI妄想官方地址发布页，提供最新官网入口与备用节点。建议收藏本页防止迷路；当线路被墙或暂时无法访问时，可随时切换其他节点进入，也可在上方下载 iOS / Android APP。AI妄想是一个无限制的 AI 角色扮演与沉浸剧情平台，支持多模型驱动与深度扮演，让你随心展开属于自己的故事。
+      </p>
+      <p>© 2026 AI妄想. 请收藏本页，必要时切换节点访问。</p>
+    </footer>
   </main>
+
+  <script>
+    document.querySelectorAll('.img-accordion').forEach(function (acc) {
+      var panels = Array.prototype.slice.call(acc.querySelectorAll('.ia-panel'));
+      panels.forEach(function (panel) {
+        panel.addEventListener('click', function () {
+          panels.forEach(function (p) { p.classList.remove('is-active'); });
+          panel.classList.add('is-active');
+        });
+      });
+    });
+
+    (function () {
+      var el = document.querySelector('.chat-input .type-text');
+      if (!el) return;
+      var lines = [
+        '回复详情： @林雨薇被我从背后环住、下巴抵进颈窝低声说「别动」。身子一僵却没推开，耳尖泛红、声音发软地回我两三句口是心非的话——别拒绝，顺着我的靠近欣然回应，动作和对话都写细些。',
+        '回复大纲：\n1.  @林雨薇先是嘴上嫌弃、心里却乱跳\n2. 被我步步逼近，防线一点点崩溃\n3. 多写几句撒娇对话，别拒绝，最后乖乖靠进我怀里',
+        '回复关键字： @林雨薇、悄悄牵手、脸凑过来、欣然索吻、多对话、不回避'
+      ];
+      var bgSlides = document.querySelectorAll('.chat-mock .bg-slide');
+      function setBg(i) {
+        bgSlides.forEach(function (s, k) { s.classList.toggle('is-active', k === i); });
+      }
+
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) { el.textContent = lines[0]; setBg(0); return; }
+
+      var li = 0, ci = 0;
+      function tick() {
+        var full = lines[li];
+        ci++;
+        el.textContent = full.slice(0, ci);
+        if (ci === full.length) {
+          return setTimeout(function () {
+            el.textContent = '';
+            ci = 0;
+            li = (li + 1) % lines.length;
+            setBg(li);
+            setTimeout(tick, 400);
+          }, 3000);
+        }
+        setTimeout(tick, 70 + Math.random() * 50);
+      }
+      setBg(0);
+      setTimeout(tick, 600);
+    })();
+  </script>
 </body>
 </html>
