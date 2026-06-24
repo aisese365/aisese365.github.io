@@ -5,9 +5,18 @@ import { fileURLToPath } from 'node:url';
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const distDir = path.join(rootDir, 'dist');
 const sourceHtml = path.join(rootDir, 'index.html');
+const appVersionConfigFile = path.join(rootDir, 'app-version.json');
 
 const DEFAULT_SITE_URL = 'https://aisese365.github.io';
 const DEFAULT_GOOGLE_ANALYTICS_ID = 'G-0B9B32Z26W';
+const APP_DOWNLOAD_TEMPLATES = {
+  primary: 'https://pub-9f9a433bef504b16b1b30cd09cc00b91.r2.dev/aisese-{platform}-{version}.{extension}',
+  backup: 'https://github.com/aisese365/aisese365.github.io/releases/download/v{version}/aisese-{platform}-{version}.{extension}'
+};
+const APP_PLATFORMS = {
+  android: { extension: 'apk' },
+  ios: { extension: 'ipa' }
+};
 
 const STATIC_EXTENSIONS = new Set([
   '.gif',
@@ -20,6 +29,9 @@ const STATIC_EXTENSIONS = new Set([
   '.webmanifest',
   '.webp',
   '.xml'
+]);
+const STATIC_FILENAMES = new Set([
+  'app-version.json'
 ]);
 
 function firstDefinedEnv(names) {
@@ -40,7 +52,73 @@ function normalizeSiteUrl(value) {
   return url.toString().replace(/\/+$/, '');
 }
 
-function renderHtml(template) {
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function interpolateUrlTemplate(template, values) {
+  const url = template.replace(/\{([a-z]+)\}/g, (_, key) => {
+    if (!Object.prototype.hasOwnProperty.call(values, key)) {
+      throw new Error(`Unknown app download template key: ${key}`);
+    }
+    return encodeURIComponent(values[key]);
+  });
+
+  return new URL(url).toString();
+}
+
+function normalizeAppVersionConfig(rawConfig) {
+  const config = {};
+
+  for (const [platform, defaults] of Object.entries(APP_PLATFORMS)) {
+    const platformConfig = rawConfig?.[platform];
+    if (!platformConfig || typeof platformConfig !== 'object') {
+      throw new Error(`Missing app version config for ${platform}`);
+    }
+
+    const version = String(platformConfig.version ?? '').trim();
+    if (!version) {
+      throw new Error(`Missing app version for ${platform}`);
+    }
+
+    const extension = String(platformConfig.extension ?? defaults.extension).trim().replace(/^\./, '');
+    if (!extension) {
+      throw new Error(`Missing app file extension for ${platform}`);
+    }
+
+    config[platform] = { version, extension };
+  }
+
+  return config;
+}
+
+function applyAppVersionConfig(html, appVersionConfig) {
+  let result = html;
+
+  for (const [platform, config] of Object.entries(appVersionConfig)) {
+    const templateValues = { platform, version: config.version, extension: config.extension };
+    const placeholderPrefix = `__APP_${platform.toUpperCase()}_`;
+
+    result = result.replaceAll(`${placeholderPrefix}VERSION__`, escapeHtml(config.version));
+    result = result.replaceAll(
+      `${placeholderPrefix}PRIMARY_URL__`,
+      interpolateUrlTemplate(APP_DOWNLOAD_TEMPLATES.primary, templateValues)
+    );
+    result = result.replaceAll(
+      `${placeholderPrefix}BACKUP_URL__`,
+      interpolateUrlTemplate(APP_DOWNLOAD_TEMPLATES.backup, templateValues)
+    );
+  }
+
+  return result;
+}
+
+function renderHtml(template, appVersionConfig) {
   const siteUrl = normalizeSiteUrl(firstDefinedEnv([
     'PUBLIC_SITE_URL',
     'SITE_URL',
@@ -53,6 +131,7 @@ function renderHtml(template) {
   ]) ?? DEFAULT_GOOGLE_ANALYTICS_ID;
 
   let html = template.replaceAll('__PUBLIC_SITE_URL__', siteUrl);
+  html = applyAppVersionConfig(html, appVersionConfig);
 
   if (googleAnalyticsId) {
     html = html.replaceAll('__GOOGLE_ANALYTICS_ID__', googleAnalyticsId);
@@ -89,14 +168,15 @@ async function copyStaticFiles(fromDir, toDir) {
     }
 
     if (entry.name === 'index.html') continue;
-    if (!STATIC_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) continue;
+    if (!STATIC_FILENAMES.has(entry.name) && !STATIC_EXTENSIONS.has(path.extname(entry.name).toLowerCase())) continue;
 
     await copyFile(sourcePath, targetPath);
   }
 }
 
 const template = await readFile(sourceHtml, 'utf8');
-const result = renderHtml(template);
+const appVersionConfig = normalizeAppVersionConfig(JSON.parse(await readFile(appVersionConfigFile, 'utf8')));
+const result = renderHtml(template, appVersionConfig);
 
 await rm(distDir, { recursive: true, force: true });
 await mkdir(distDir, { recursive: true });

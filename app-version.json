@@ -1,0 +1,10 @@
+{
+  "android": {
+    "version": "1.10.5",
+    "extension": "apk"
+  },
+  "ios": {
+    "version": "1.10.5",
+    "extension": "ipa"
+  }
+}
