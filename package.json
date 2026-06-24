@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "build": "npm run build:github",
+    "build:github": "PUBLIC_SITE_DOMAIN=aisese365.github.io GOOGLE_ANALYTICS_ID=G-0B9B32Z26W node scripts/build.mjs",
+    "build:cf": "PUBLIC_SITE_DOMAIN=aisese365.pages.dev GOOGLE_ANALYTICS_ID=G-MLZEZX3LYE node scripts/build.mjs"
+  }
+}
