@@ -4,7 +4,6 @@
     "extension": "apk"
   },
   "ios": {
-    "version": "1.10.5",
-    "extension": "ipa"
+    "version": "1.10.5"
   }
 }

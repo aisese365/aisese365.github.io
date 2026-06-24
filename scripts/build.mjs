@@ -9,13 +9,16 @@ const appVersionConfigFile = path.join(rootDir, 'app-version.json');
 
 const DEFAULT_SITE_URL = 'https://aisese365.github.io';
 const DEFAULT_GOOGLE_ANALYTICS_ID = 'G-0B9B32Z26W';
-const APP_DOWNLOAD_TEMPLATES = {
-  primary: 'https://pub-9f9a433bef504b16b1b30cd09cc00b91.r2.dev/aisese-{platform}-{version}.{extension}',
-  backup: 'https://github.com/aisese365/aisese365.github.io/releases/download/v{version}/aisese-{platform}-{version}.{extension}'
-};
-const APP_PLATFORMS = {
-  android: { extension: 'apk' },
-  ios: { extension: 'ipa' }
+const APP_DOWNLOADS = {
+  android: {
+    defaultExtension: 'apk',
+    primaryTemplate: 'https://pub-9f9a433bef504b16b1b30cd09cc00b91.r2.dev/aisese-{platform}-{version}.{extension}',
+    backupTemplate: 'https://github.com/aisese365/aisese365.github.io/releases/download/v{version}/aisese-{platform}-{version}.{extension}'
+  },
+  ios: {
+    primaryUrl: 'https://aisese365-ios-install.pages.dev/',
+    backupUrl: 'https://aisese365.github.io/ios-install/'
+  }
 };
 
 const STATIC_EXTENSIONS = new Set([
@@ -72,10 +75,22 @@ function interpolateUrlTemplate(template, values) {
   return new URL(url).toString();
 }
 
+function resolveDownloadUrl(download, type, values) {
+  const fixedUrl = download[`${type}Url`];
+  if (fixedUrl) return new URL(fixedUrl).toString();
+
+  const template = download[`${type}Template`];
+  if (!template) {
+    throw new Error(`Missing ${type} app download URL`);
+  }
+
+  return interpolateUrlTemplate(template, values);
+}
+
 function normalizeAppVersionConfig(rawConfig) {
   const config = {};
 
-  for (const [platform, defaults] of Object.entries(APP_PLATFORMS)) {
+  for (const [platform, download] of Object.entries(APP_DOWNLOADS)) {
     const platformConfig = rawConfig?.[platform];
     if (!platformConfig || typeof platformConfig !== 'object') {
       throw new Error(`Missing app version config for ${platform}`);
@@ -86,8 +101,8 @@ function normalizeAppVersionConfig(rawConfig) {
       throw new Error(`Missing app version for ${platform}`);
     }
 
-    const extension = String(platformConfig.extension ?? defaults.extension).trim().replace(/^\./, '');
-    if (!extension) {
+    const extension = String(platformConfig.extension ?? download.defaultExtension ?? '').trim().replace(/^\./, '');
+    if ((download.primaryTemplate || download.backupTemplate) && !extension) {
       throw new Error(`Missing app file extension for ${platform}`);
     }
 
@@ -107,11 +122,11 @@ function applyAppVersionConfig(html, appVersionConfig) {
     result = result.replaceAll(`${placeholderPrefix}VERSION__`, escapeHtml(config.version));
     result = result.replaceAll(
       `${placeholderPrefix}PRIMARY_URL__`,
-      interpolateUrlTemplate(APP_DOWNLOAD_TEMPLATES.primary, templateValues)
+      resolveDownloadUrl(APP_DOWNLOADS[platform], 'primary', templateValues)
     );
     result = result.replaceAll(
       `${placeholderPrefix}BACKUP_URL__`,
-      interpolateUrlTemplate(APP_DOWNLOAD_TEMPLATES.backup, templateValues)
+      resolveDownloadUrl(APP_DOWNLOADS[platform], 'backup', templateValues)
     );
   }
 
