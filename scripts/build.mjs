@@ -13,7 +13,7 @@ const APP_DOWNLOADS = {
   android: {
     defaultExtension: 'apk',
     primaryTemplate: 'https://pub-9f9a433bef504b16b1b30cd09cc00b91.r2.dev/aisese-{platform}-{version}.{extension}',
-    backupTemplate: 'https://github.com/aisese365/aisese365.github.io/releases/download/v{version}/aisese-{platform}-{version}.{extension}'
+    backupTemplate: 'https://github.com/aisese365/aisese365.github.io/releases/download/{version}/aisese-{platform}-{version}.{extension}'
   },
   ios: {
     primaryUrl: 'https://aisese365-ios-install.pages.dev/',
