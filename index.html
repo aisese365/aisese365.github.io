@@ -721,6 +721,115 @@
       margin: 0;
     }
 
+    .bookmark-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(33, 22, 34, 0.58);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .bookmark-modal.is-open {
+      display: flex;
+    }
+
+    .bookmark-dialog {
+      width: min(100%, 380px);
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.62);
+      border-radius: 14px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 240, 247, 0.96)),
+        var(--surface);
+      box-shadow: 0 26px 70px rgba(33, 22, 34, 0.28);
+      text-align: center;
+    }
+
+    .bookmark-badge {
+      display: inline-grid;
+      width: 46px;
+      height: 46px;
+      margin-bottom: 14px;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: linear-gradient(135deg, var(--brand) 0%, #8d76ec 100%);
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .bookmark-dialog h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1.32;
+      letter-spacing: 0;
+    }
+
+    .bookmark-dialog p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .bookmark-shortcut {
+      display: inline-flex;
+      min-height: 30px;
+      align-items: center;
+      margin-top: 10px;
+      padding: 0 11px;
+      border-radius: 999px;
+      color: var(--brand-deep);
+      background: var(--soft);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .bookmark-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .bookmark-button {
+      display: inline-flex;
+      width: 100%;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      border-radius: var(--radius);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .bookmark-copy {
+      border: 0;
+      color: #fff;
+      background: linear-gradient(90deg, var(--brand) 0%, #8d76ec 100%);
+      box-shadow: 0 12px 26px rgba(243, 13, 124, 0.18);
+    }
+
+    .bookmark-close {
+      border: 1px solid var(--line);
+      color: var(--brand-deep);
+      background: rgba(255, 255, 255, 0.66);
+    }
+
+    .bookmark-button:hover,
+    .bookmark-button:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+    }
+
     .feature-rows {
       display: grid;
       gap: 0;
@@ -1329,6 +1438,10 @@
         grid-template-columns: 1fr;
       }
 
+      .bookmark-dialog {
+        padding: 22px 18px;
+      }
+
     }
   </style>
 
@@ -1581,6 +1694,21 @@
     </footer>
   </main>
 
+  <div class="bookmark-modal" id="bookmark-modal" role="dialog" aria-modal="true" aria-labelledby="bookmark-title" aria-describedby="bookmark-desc">
+    <div class="bookmark-dialog">
+      <span class="bookmark-badge" aria-hidden="true">★</span>
+      <h2 id="bookmark-title">收藏本页，防止迷路</h2>
+      <p id="bookmark-desc">
+        域名或节点可能变化，建议现在保存这个发布页。
+        <span id="bookmark-guide">按 <span class="bookmark-shortcut" id="bookmark-key">Ctrl + D</span> 一键收藏。</span>
+      </p>
+      <div class="bookmark-actions">
+        <button class="bookmark-button bookmark-copy" id="bookmark-copy" type="button">复制当前地址</button>
+        <button class="bookmark-button bookmark-close" id="bookmark-close" type="button">我知道了</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.querySelectorAll('.img-accordion').forEach(function (acc) {
       var panels = Array.prototype.slice.call(acc.querySelectorAll('.ia-panel'));
@@ -1657,8 +1785,83 @@
       }).join('');
     }
 
+    function initBookmarkModal() {
+      var modal = document.getElementById('bookmark-modal');
+      var closeButton = document.getElementById('bookmark-close');
+      var copyButton = document.getElementById('bookmark-copy');
+      var key = document.getElementById('bookmark-key');
+      var guide = document.getElementById('bookmark-guide');
+      if (!modal || !closeButton || !copyButton || !key || !guide) return;
+
+      var platform = navigator.platform || '';
+      var userAgent = navigator.userAgent || '';
+      var isMac = /Mac|iPhone|iPad|iPod/.test(platform + userAgent);
+      var isTouchDevice = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      var isMobile = isTouchDevice || /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
+
+      key.textContent = isMac ? '⌘ + D' : 'Ctrl + D';
+      if (isMobile) {
+        guide.textContent = /iPhone|iPad|iPod/i.test(userAgent)
+          ? '在浏览器分享菜单中选择“添加到主屏幕”，下次更容易回来。'
+          : '在浏览器菜单中选择“添加到主屏幕”或“收藏”，下次更容易回来。';
+      }
+
+      function closeModal() {
+        modal.classList.remove('is-open');
+      }
+
+      function setCopyState(text) {
+        copyButton.textContent = text;
+        window.setTimeout(function () {
+          copyButton.textContent = '复制当前地址';
+        }, 2200);
+      }
+
+      function fallbackCopy(text) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        var ok = false;
+        try {
+          ok = document.execCommand('copy');
+        } catch (error) {
+          ok = false;
+        }
+        document.body.removeChild(textarea);
+        setCopyState(ok ? '已复制，请妥善保存' : '复制失败，请手动复制地址栏');
+      }
+
+      closeButton.addEventListener('click', closeModal);
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+      copyButton.addEventListener('click', function () {
+        var currentUrl = window.location.href;
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(currentUrl).then(function () {
+            setCopyState('已复制，请妥善保存');
+          }, function () {
+            fallbackCopy(currentUrl);
+          });
+          return;
+        }
+        fallbackCopy(currentUrl);
+      });
+
+      modal.classList.add('is-open');
+      closeButton.focus();
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
       renderNodes();
+      initBookmarkModal();
       // logo / 玩法指南等官方站链接透传 ref
       document.querySelectorAll('[data-ref-link]').forEach(function (a) {
         a.href = withRef(a.getAttribute('href'));
