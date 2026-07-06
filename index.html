@@ -1866,12 +1866,6 @@
           var s = statusFromMs(ms);
           statusEl.className = 'node-status ' + s.cls;
           statusEl.textContent = s.text;
-          if (s.cls === 'is-down') {
-            a.addEventListener('click', function (event) {
-              event.preventDefault();
-              window.alert('当前节点不可用');
-            });
-          }
         });
       });
     }
