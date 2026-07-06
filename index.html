@@ -614,9 +614,58 @@
       font-weight: 800;
     }
 
-    .node-mark {
-      color: var(--brand-deep);
-      font-weight: 900;
+    .node-status {
+      display: inline-flex;
+      flex: none;
+      align-items: center;
+      gap: 5px;
+      min-height: 22px;
+      padding: 0 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .node-status.is-pending {
+      color: var(--quiet);
+      background: rgba(146, 134, 150, 0.14);
+    }
+
+    .node-status.is-pending::before {
+      width: 8px;
+      height: 8px;
+      border: 2px solid rgba(146, 134, 150, 0.35);
+      border-top-color: var(--quiet);
+      border-radius: 50%;
+      content: "";
+      animation: node-status-spin 0.7s linear infinite;
+    }
+
+    @keyframes node-status-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .node-status.is-good {
+      color: var(--green);
+      background: rgba(28, 155, 107, 0.14);
+    }
+
+    .node-status.is-mid {
+      color: #b8860b;
+      background: rgba(184, 134, 11, 0.14);
+    }
+
+    .node-status.is-bad {
+      color: #dc2626;
+      background: rgba(220, 38, 38, 0.14);
+    }
+
+    .node-status.is-down {
+      color: var(--quiet);
+      background: rgba(146, 134, 150, 0.14);
     }
 
     .download-grid {
@@ -1775,10 +1824,56 @@
       var ul = document.getElementById('node-grid');
       if (!ul) return;
       ul.innerHTML = OFFICIAL_NODES.map(function (n) {
-        return '<li><a class="node-item" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer" aria-label="打开' + n.name + '">'
+        return '<li><a class="node-item" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer" aria-label="打开' + n.name + '" data-probe-url="' + n.url + '">'
           + '<span class="node-name">' + n.name + '</span>'
-          + '<span class="node-mark" aria-hidden="true">↗</span></a></li>';
+          + '<span class="node-status is-pending" data-status="pending">探测中</span></a></li>';
       }).join('');
+    }
+
+    // 探测单个节点：直接探测域名根路径（和用户点击访问的地址一致，不暴露任何自定义接口），超时 5 秒
+    // 用 no-cors 发请求——拿不到状态码，但只要请求能来回一趟就算“通”，和跨域无关
+    function probeNode(url) {
+      return new Promise(function (resolve) {
+        var controller = new AbortController();
+        var timer = setTimeout(function () { controller.abort(); }, 5000);
+        var start = performance.now();
+        fetch(url, { mode: 'no-cors', cache: 'no-store', signal: controller.signal })
+          .then(function () {
+            clearTimeout(timer);
+            resolve(Math.round(performance.now() - start));
+          })
+          .catch(function () {
+            clearTimeout(timer);
+            resolve(null);
+          });
+      });
+    }
+
+    function statusFromMs(ms) {
+      if (ms == null) return { cls: 'is-down', text: '不可用' };
+      if (ms <= 1000) return { cls: 'is-good', text: '通畅' };
+      if (ms <= 2000) return { cls: 'is-mid', text: '拥挤' };
+      return { cls: 'is-bad', text: '繁忙' };
+    }
+
+    // 逐个探测节点延迟，探测完成后把右侧标签换成半透明的状态 tag
+    function probeAllNodes() {
+      document.querySelectorAll('.node-item').forEach(function (a) {
+        var url = a.getAttribute('data-probe-url');
+        var statusEl = a.querySelector('.node-status');
+        if (!url || !statusEl) return;
+        probeNode(url).then(function (ms) {
+          var s = statusFromMs(ms);
+          statusEl.className = 'node-status ' + s.cls;
+          statusEl.textContent = s.text;
+          if (s.cls === 'is-down') {
+            a.addEventListener('click', function (event) {
+              event.preventDefault();
+              window.alert('当前节点不可用');
+            });
+          }
+        });
+      });
     }
 
     function initBookmarkModal() {
@@ -1857,6 +1952,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       renderNodes();
+      probeAllNodes();
       initBookmarkModal();
       // logo / 玩法指南等官方站链接透传 ref
       document.querySelectorAll('[data-ref-link]').forEach(function (a) {
