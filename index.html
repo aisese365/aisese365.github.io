@@ -854,6 +854,7 @@
       font-size: 14px;
       font-weight: 900;
       cursor: pointer;
+      text-decoration: none;
     }
 
     .bookmark-copy {
@@ -873,6 +874,51 @@
     .bookmark-button:focus-visible {
       transform: translateY(-1px);
       outline: none;
+    }
+
+    .invite-dialog {
+      width: min(100%, 460px);
+    }
+
+    .invite-dialog .invite-lead,
+    .invite-dialog .invite-warning,
+    .invite-dialog .invite-steps-title,
+    .invite-steps {
+      text-align: left;
+    }
+
+    .invite-dialog .invite-warning {
+      padding: 12px 14px;
+      border: 1px solid rgba(243, 13, 124, 0.16);
+      border-radius: var(--radius);
+      color: var(--brand-deep);
+      background: var(--soft);
+    }
+
+    .invite-dialog strong {
+      color: var(--brand);
+      font-weight: 900;
+    }
+
+    .invite-dialog .invite-steps-title {
+      margin-top: 16px;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .invite-steps {
+      display: grid;
+      gap: 10px;
+      margin: 10px 0 0;
+      padding: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+      list-style: none;
+    }
+
+    .invite-actions {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .feature-rows {
@@ -1754,6 +1800,26 @@
     </div>
   </div>
 
+  <div class="bookmark-modal" id="invite-modal" role="dialog" aria-modal="true" aria-labelledby="invite-title" aria-describedby="invite-desc invite-warning">
+    <div class="bookmark-dialog invite-dialog">
+      <span class="bookmark-badge" aria-hidden="true">🎁</span>
+      <h2 id="invite-title">你正处于受邀状态</h2>
+      <p class="invite-lead" id="invite-desc">检测到你通过好友邀请链接来到这里～</p>
+      <p class="invite-warning" id="invite-warning">
+        邀请奖励需要 <strong>先在网页端注册账号</strong> 才能到账，APP 内直接注册将 <strong>无法获得奖励</strong>。
+      </p>
+      <p class="invite-steps-title">正确姿势：</p>
+      <ol class="invite-steps">
+        <li>1️⃣&nbsp; 请在官网完成注册，奖励自动到账</li>
+        <li>2️⃣&nbsp; 下载 APP，用刚注册的账号直接登录即可</li>
+      </ol>
+      <div class="bookmark-actions invite-actions">
+        <a class="bookmark-button bookmark-copy" id="invite-register" href="https://aisese.ai" target="_blank" rel="noopener noreferrer">先去注册</a>
+        <a class="bookmark-button bookmark-close" id="invite-continue" href="#" target="_blank" rel="noopener noreferrer">继续下载</a>
+      </div>
+    </div>
+  </div>
+
   <script>
     document.querySelectorAll('.img-accordion').forEach(function (acc) {
       var panels = Array.prototype.slice.call(acc.querySelectorAll('.ia-panel'));
@@ -1812,10 +1878,15 @@
       { name: '节点 05', url: 'https://zynther.cfd' },
     ];
 
-    // 保留原有参数不变，仅在末尾追加 ref；无 ref 则原样返回
+    function hasRef() {
+      return new URLSearchParams(location.search).has('ref');
+    }
+
+    // 保留原有参数不变，仅在末尾追加 ref；无 ref 参数则原样返回
     function withRef(url) {
-      var ref = new URLSearchParams(location.search).get('ref');
-      if (!ref) return url;
+      var params = new URLSearchParams(location.search);
+      if (!params.has('ref')) return url;
+      var ref = params.get('ref') || '';
       return url + (url.indexOf('?') >= 0 ? '&' : '?') + 'ref=' + encodeURIComponent(ref);
     }
 
@@ -1944,10 +2015,46 @@
       closeButton.focus();
     }
 
+    function initInviteDownloadModal() {
+      if (!hasRef()) return;
+
+      var modal = document.getElementById('invite-modal');
+      var registerLink = document.getElementById('invite-register');
+      var continueLink = document.getElementById('invite-continue');
+      var downloadButtons = document.querySelectorAll('.download-button');
+      if (!modal || !registerLink || !continueLink || !downloadButtons.length) return;
+
+      registerLink.href = withRef(OFFICIAL_NODES[0].url);
+
+      function closeModal() {
+        modal.classList.remove('is-open');
+      }
+
+      downloadButtons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          event.preventDefault();
+          continueLink.href = button.href;
+          continueLink.target = button.target || '_self';
+          modal.classList.add('is-open');
+          registerLink.focus();
+        });
+      });
+
+      registerLink.addEventListener('click', closeModal);
+      continueLink.addEventListener('click', closeModal);
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
       renderNodes();
       probeAllNodes();
       initBookmarkModal();
+      initInviteDownloadModal();
       // logo / 玩法指南等官方站链接透传 ref
       document.querySelectorAll('[data-ref-link]').forEach(function (a) {
         a.href = withRef(a.getAttribute('href'));
