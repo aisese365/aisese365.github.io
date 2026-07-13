@@ -952,10 +952,8 @@
       outline: none;
     }
 
-    .invite-node-host {
-      color: var(--quiet);
-      font-size: 13px;
-      font-weight: 500;
+    .invite-node .node-status {
+      flex: 0 0 auto;
     }
 
     .feature-rows {
@@ -1981,15 +1979,22 @@
     }
 
     // 逐个探测节点延迟，探测完成后把右侧标签换成半透明的状态 tag
+    // 同一 URL 只探测一次，官网节点区和邀请弹窗的状态标签一起更新
     function probeAllNodes() {
-      document.querySelectorAll('.node-item').forEach(function (a) {
+      var groups = {};
+      document.querySelectorAll('[data-probe-url]').forEach(function (a) {
         var url = a.getAttribute('data-probe-url');
-        var statusEl = a.querySelector('.node-status');
-        if (!url || !statusEl) return;
+        if (!url || !a.querySelector('.node-status')) return;
+        (groups[url] = groups[url] || []).push(a);
+      });
+      Object.keys(groups).forEach(function (url) {
         probeNode(url).then(function (ms) {
           var s = statusFromMs(ms);
-          statusEl.className = 'node-status ' + s.cls;
-          statusEl.textContent = s.text;
+          groups[url].forEach(function (a) {
+            var statusEl = a.querySelector('.node-status');
+            statusEl.className = 'node-status ' + s.cls;
+            statusEl.textContent = s.text;
+          });
         });
       });
     }
@@ -2081,11 +2086,11 @@
         modal.classList.remove('is-open');
       }
 
-      // 注册通道 = 官网节点列表，任选其一，链接都带 ref
+      // 注册通道 = 官网节点列表，任选其一，链接都带 ref；右侧状态标签和官网节点区共用探测结果
       nodeList.innerHTML = OFFICIAL_NODES.map(function (n) {
-        return '<li><a class="invite-node" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer">'
+        return '<li><a class="invite-node" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer" data-probe-url="' + n.url + '">'
           + '<span>' + n.name + '</span>'
-          + '<span class="invite-node-host">' + n.url.replace(/^https?:\/\//, '') + ' →</span></a></li>';
+          + '<span class="node-status is-pending" data-status="pending">探测中</span></a></li>';
       }).join('');
       nodeList.querySelectorAll('a').forEach(function (a) {
         a.addEventListener('click', closeModal);
@@ -2113,9 +2118,9 @@
 
     document.addEventListener('DOMContentLoaded', function () {
       renderNodes();
-      probeAllNodes();
-      initBookmarkModal();
       initInviteDownloadModal();
+      probeAllNodes(); // 需在节点区和邀请弹窗列表都渲染完后再探测
+      initBookmarkModal();
       // logo / 玩法指南等官方站链接透传 ref
       document.querySelectorAll('[data-ref-link]').forEach(function (a) {
         a.href = withRef(a.getAttribute('href'));
