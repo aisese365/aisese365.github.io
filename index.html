@@ -918,7 +918,44 @@
     }
 
     .invite-actions {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .invite-node-list {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .invite-node {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: var(--surface);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    .invite-node:hover,
+    .invite-node:focus-visible {
+      border-color: rgba(243, 13, 124, 0.45);
+      box-shadow: 0 8px 20px rgba(243, 13, 124, 0.1);
+      outline: none;
+    }
+
+    .invite-node-host {
+      color: var(--quiet);
+      font-size: 13px;
+      font-weight: 500;
     }
 
     .feature-rows {
@@ -1810,12 +1847,13 @@
       </p>
       <p class="invite-steps-title">正确姿势：</p>
       <ol class="invite-steps">
-        <li>1️⃣&nbsp; 请在官网完成注册，奖励自动到账</li>
+        <li>1️⃣&nbsp; 选择下方任一通道完成注册，奖励自动到账</li>
         <li>2️⃣&nbsp; 下载 APP，用刚注册的账号直接登录即可</li>
       </ol>
+      <p class="invite-steps-title">选择合适的通道注册：</p>
+      <ul class="invite-node-list" id="invite-node-list" aria-label="注册通道列表"></ul>
       <div class="bookmark-actions invite-actions">
-        <a class="bookmark-button bookmark-copy" id="invite-register" href="https://aisese.ai" target="_blank" rel="noopener noreferrer">先去注册</a>
-        <a class="bookmark-button bookmark-close" id="invite-continue" href="#" target="_blank" rel="noopener noreferrer">继续下载</a>
+        <a class="bookmark-button bookmark-close" id="invite-continue" href="#" target="_blank" rel="noopener noreferrer">继续下载 APP</a>
       </div>
     </div>
   </div>
@@ -2034,16 +2072,24 @@
       if (!hasRef()) return;
 
       var modal = document.getElementById('invite-modal');
-      var registerLink = document.getElementById('invite-register');
+      var nodeList = document.getElementById('invite-node-list');
       var continueLink = document.getElementById('invite-continue');
       var downloadButtons = document.querySelectorAll('.download-button');
-      if (!modal || !registerLink || !continueLink || !downloadButtons.length) return;
-
-      registerLink.href = withRef(OFFICIAL_NODES[0].url);
+      if (!modal || !nodeList || !continueLink || !downloadButtons.length) return;
 
       function closeModal() {
         modal.classList.remove('is-open');
       }
+
+      // 注册通道 = 官网节点列表，任选其一，链接都带 ref
+      nodeList.innerHTML = OFFICIAL_NODES.map(function (n) {
+        return '<li><a class="invite-node" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer">'
+          + '<span>' + n.name + '</span>'
+          + '<span class="invite-node-host">' + n.url.replace(/^https?:\/\//, '') + ' →</span></a></li>';
+      }).join('');
+      nodeList.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', closeModal);
+      });
 
       downloadButtons.forEach(function (button) {
         button.addEventListener('click', function (event) {
@@ -2051,11 +2097,11 @@
           continueLink.href = button.href;
           continueLink.target = button.target || '_self';
           modal.classList.add('is-open');
-          registerLink.focus();
+          var firstNode = nodeList.querySelector('a');
+          if (firstNode) firstNode.focus();
         });
       });
 
-      registerLink.addEventListener('click', closeModal);
       continueLink.addEventListener('click', closeModal);
       modal.addEventListener('click', function (event) {
         if (event.target === modal) closeModal();
