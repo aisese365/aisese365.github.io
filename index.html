@@ -1878,15 +1878,30 @@
       { name: '节点 05', url: 'https://zynther.cfd' },
     ];
 
-    function hasRef() {
-      return new URLSearchParams(location.search).has('ref');
+    // ref 三层取值：① URL 带 ?ref= 直接用（并写 cookie 记 90 天）② 没带则读 cookie ③ 都没有用默认推广码
+    var DEFAULT_REF = 'REDCFDE6';
+    var REF_COOKIE = 'aw_ref';
+
+    function readRefCookie() {
+      var m = document.cookie.match(/(?:^|;\s*)aw_ref=([^;]+)/);
+      return m ? decodeURIComponent(m[1]) : '';
     }
 
-    // 保留原有参数不变，仅在末尾追加 ref；无 ref 参数则原样返回
+    var urlRef = new URLSearchParams(location.search).get('ref') || '';
+    if (urlRef) {
+      document.cookie = REF_COOKIE + '=' + encodeURIComponent(urlRef) +
+        '; path=/; max-age=' + 90 * 24 * 3600 + '; SameSite=Lax';
+    }
+    // 真实邀请码（URL 或 cookie），不含默认码；邀请弹窗只对真实邀请访客弹
+    var refCode = urlRef || readRefCookie();
+
+    function hasRef() {
+      return !!refCode;
+    }
+
+    // 保留原有参数不变，仅在末尾追加 ref；拿不到真实 ref 时兜底默认推广码
     function withRef(url) {
-      var params = new URLSearchParams(location.search);
-      if (!params.has('ref')) return url;
-      var ref = params.get('ref') || '';
+      var ref = refCode || DEFAULT_REF;
       return url + (url.indexOf('?') >= 0 ? '&' : '?') + 'ref=' + encodeURIComponent(ref);
     }
 
