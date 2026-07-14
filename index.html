@@ -586,6 +586,26 @@
       display: flex;
     }
 
+    .node-down-notice {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border: 1px solid rgba(243, 13, 124, 0.16);
+      border-radius: var(--radius);
+      color: var(--brand-deep);
+      background: var(--soft);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .node-down-notice p {
+      margin: 0;
+    }
+
+    .node-down-notice .node-down-title {
+      margin-bottom: 6px;
+      font-weight: 900;
+    }
+
     .node-item {
       display: flex;
       flex: 1;
@@ -1657,6 +1677,12 @@
         </div>
 
         <ul class="node-grid" id="node-grid" aria-label="AI妄想可用节点列表"></ul>
+
+        <div class="node-down-notice" id="node-down-notice" hidden role="status">
+          <p class="node-down-title">⏳ 当前所有节点暂时无法访问</p>
+          <p>别担心，新的可用节点正在路上，请稍后刷新本页查看。</p>
+          <p>你也可以先下载 APP——APP 走独立通道，一般不受影响，节点恢复后直接登录即可；建议收藏本页防止迷路，最新入口会第一时间在这里更新。</p>
+        </div>
       </div>
 
       <div class="hero-download" id="download" aria-labelledby="download-title">
@@ -1987,15 +2013,22 @@
         if (!url || !a.querySelector('.node-status')) return;
         (groups[url] = groups[url] || []).push(a);
       });
-      Object.keys(groups).forEach(function (url) {
-        probeNode(url).then(function (ms) {
+      var probes = Object.keys(groups).map(function (url) {
+        return probeNode(url).then(function (ms) {
           var s = statusFromMs(ms);
           groups[url].forEach(function (a) {
             var statusEl = a.querySelector('.node-status');
             statusEl.className = 'node-status ' + s.cls;
             statusEl.textContent = s.text;
           });
+          return ms;
         });
+      });
+      // 所有节点都探测失败时，显示“新节点正在路上”提示
+      Promise.all(probes).then(function (results) {
+        var notice = document.getElementById('node-down-notice');
+        if (!notice) return;
+        notice.hidden = !(results.length && results.every(function (ms) { return ms == null; }));
       });
     }
 
