@@ -688,6 +688,11 @@
       background: rgba(146, 134, 150, 0.14);
     }
 
+    .node-status.is-tg {
+      color: var(--blue);
+      background: rgba(52, 126, 233, 0.14);
+    }
+
     .download-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2123,11 +2128,18 @@
       }
 
       // 注册通道 = 官网节点列表，任选其一，链接都带 ref；右侧状态标签和官网节点区共用探测结果
-      nodeList.innerHTML = OFFICIAL_NODES.map(function (n) {
+      var channelItems = OFFICIAL_NODES.map(function (n) {
         return '<li><a class="invite-node" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer" data-probe-url="' + n.url + '">'
           + '<span>' + n.name + '</span>'
           + '<span class="node-status is-pending" data-status="pending">探测中</span></a></li>';
-      }).join('');
+      });
+      // Telegram 专用注册地址插在列表中间：bot 深链带 start=ref_邀请码，不走 withRef，不参与探测
+      var tgUrl = 'https://t.me/aisese365_bot?start=ref_' + encodeURIComponent(refCode || DEFAULT_REF);
+      channelItems.splice(Math.ceil(channelItems.length / 2), 0,
+        '<li><a class="invite-node" href="' + tgUrl + '" target="_blank" rel="noopener noreferrer">'
+        + '<span>Telegram 专用</span>'
+        + '<span class="node-status is-tg">TG 内打开</span></a></li>');
+      nodeList.innerHTML = channelItems.join('');
       nodeList.querySelectorAll('a').forEach(function (a) {
         a.addEventListener('click', closeModal);
       });
