@@ -1,9 +1,9 @@
 {
   "android": {
-    "version": "1.11.7",
+    "version": "1.11.8",
     "extension": "apk"
   },
   "ios": {
-    "version": "1.11.6"
+    "version": "1.11.8"
   }
 }
