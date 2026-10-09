@@ -1948,6 +1948,66 @@
       { name: '节点 08', url: 'https://jastor.site' },
     ];
 
+    // 仅 IP 归属地为中国大陆（CN）时追加；港澳台分别为 HK / MO / TW
+    var MAINLAND_NODES = [
+      { name: '节点 09', url: 'https://www.aiwx01.xyz/' },
+    ];
+    var visitorCountryCode = '';
+    var GEOIP_URLS = [
+      'https://api.country.is/',
+      'https://get.geojs.io/v1/ip/country.json',
+    ];
+
+    function getVisibleNodes() {
+      return visitorCountryCode === 'CN' ? OFFICIAL_NODES.concat(MAINLAND_NODES) : OFFICIAL_NODES;
+    }
+
+    // 浏览器直接查询当前公网出口 IP；每个服务最多等待 3 秒，失败后切换备用服务
+    // 每次打开页面重新识别，不缓存地区，避免切换网络或代理后沿用旧结果
+    function fetchVisitorCountry(url) {
+      var controller = new AbortController();
+      var timer = setTimeout(function () { controller.abort(); }, 3000);
+      return fetch(url, {
+        mode: 'cors',
+        cache: 'no-store',
+        credentials: 'omit',
+        referrerPolicy: 'no-referrer',
+        signal: controller.signal,
+      }).then(function (response) {
+        if (!response.ok) throw new Error('IP lookup failed');
+        return response.json();
+      }).then(function (data) {
+        var code = data && data.country;
+        if (typeof code !== 'string' || !/^[A-Z]{2}$/i.test(code) || /^(XX|ZZ)$/i.test(code)) {
+          throw new Error('Unknown IP country');
+        }
+        clearTimeout(timer);
+        return code.toUpperCase();
+      }).catch(function () {
+        clearTimeout(timer);
+        return '';
+      });
+    }
+
+    function detectVisitorCountry(index) {
+      index = index || 0;
+      if (index >= GEOIP_URLS.length) return Promise.resolve('');
+      return fetchVisitorCountry(GEOIP_URLS[index]).then(function (code) {
+        return code || detectVisitorCountry(index + 1);
+      });
+    }
+
+    function initVisitorRegion() {
+      detectVisitorCountry().then(function (code) {
+        visitorCountryCode = code;
+        if (code === 'CN') {
+          renderNodes();
+          renderInviteNodes();
+          probeAllNodes();
+        }
+      });
+    }
+
     // ref 三层取值：① URL 带 ?ref= 直接用（并写 cookie 记 90 天）② 没带则读 cookie ③ 都没有用默认推广码
     var DEFAULT_REF = 'REDCFDE6';
     var REF_COOKIE = 'aw_ref';
@@ -1979,7 +2039,7 @@
     function renderNodes() {
       var ul = document.getElementById('node-grid');
       if (!ul) return;
-      ul.innerHTML = OFFICIAL_NODES.map(function (n) {
+      ul.innerHTML = getVisibleNodes().map(function (n) {
         return '<li><a class="node-item" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer" aria-label="打开' + n.name + '" data-probe-url="' + n.url + '">'
           + '<span class="node-name">' + n.name + '</span>'
           + '<span class="node-status is-pending" data-status="pending">探测中</span></a></li>';
@@ -2014,7 +2074,12 @@
 
     // 逐个探测节点延迟，探测完成后把右侧标签换成半透明的状态 tag
     // 同一 URL 只探测一次，官网节点区和邀请弹窗的状态标签一起更新
+    var nodeProbePromises = {};
+    var nodeProbeRun = 0;
     function probeAllNodes() {
+      var run = ++nodeProbeRun;
+      var notice = document.getElementById('node-down-notice');
+      if (notice) notice.hidden = true;
       var groups = {};
       document.querySelectorAll('[data-probe-url]').forEach(function (a) {
         var url = a.getAttribute('data-probe-url');
@@ -2022,7 +2087,9 @@
         (groups[url] = groups[url] || []).push(a);
       });
       var probes = Object.keys(groups).map(function (url) {
-        return probeNode(url).then(function (ms) {
+        if (!nodeProbePromises[url]) nodeProbePromises[url] = probeNode(url);
+        return nodeProbePromises[url].then(function (ms) {
+          if (run !== nodeProbeRun) return ms;
           var s = statusFromMs(ms);
           groups[url].forEach(function (a) {
             var statusEl = a.querySelector('.node-status');
@@ -2034,6 +2101,7 @@
       });
       // 所有节点都探测失败时，显示“新节点正在路上”提示
       Promise.all(probes).then(function (results) {
+        if (run !== nodeProbeRun) return;
         var notice = document.getElementById('node-down-notice');
         if (!notice) return;
         notice.hidden = !(results.length && results.every(function (ms) { return ms == null; }));
@@ -2114,6 +2182,26 @@
       closeButton.focus();
     }
 
+    function renderInviteNodes() {
+      if (!hasRef()) return;
+      var nodeList = document.getElementById('invite-node-list');
+      if (!nodeList) return;
+
+      // 注册通道 = 官网节点列表，任选其一，链接都带 ref；右侧状态标签和官网节点区共用探测结果
+      var channelItems = getVisibleNodes().map(function (n) {
+        return '<li><a class="invite-node" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer" data-probe-url="' + n.url + '">'
+          + '<span>' + n.name + '</span>'
+          + '<span class="node-status is-pending" data-status="pending">探测中</span></a></li>';
+      });
+      // Telegram 专用注册地址插在列表中间：bot 深链带 start=ref_邀请码，不走 withRef，不参与探测
+      var tgUrl = 'https://t.me/aisese365_bot?start=ref_' + encodeURIComponent(refCode || DEFAULT_REF);
+      channelItems.splice(Math.ceil(channelItems.length / 2), 0,
+        '<li><a class="invite-node" href="' + tgUrl + '" target="_blank" rel="noopener noreferrer">'
+        + '<span>Telegram 专用</span>'
+        + '<span class="node-status is-tg">TG 内打开</span></a></li>');
+      nodeList.innerHTML = channelItems.join('');
+    }
+
     function initInviteDownloadModal() {
       if (!hasRef()) return;
 
@@ -2127,21 +2215,10 @@
         modal.classList.remove('is-open');
       }
 
-      // 注册通道 = 官网节点列表，任选其一，链接都带 ref；右侧状态标签和官网节点区共用探测结果
-      var channelItems = OFFICIAL_NODES.map(function (n) {
-        return '<li><a class="invite-node" href="' + withRef(n.url) + '" target="_blank" rel="noopener noreferrer" data-probe-url="' + n.url + '">'
-          + '<span>' + n.name + '</span>'
-          + '<span class="node-status is-pending" data-status="pending">探测中</span></a></li>';
-      });
-      // Telegram 专用注册地址插在列表中间：bot 深链带 start=ref_邀请码，不走 withRef，不参与探测
-      var tgUrl = 'https://t.me/aisese365_bot?start=ref_' + encodeURIComponent(refCode || DEFAULT_REF);
-      channelItems.splice(Math.ceil(channelItems.length / 2), 0,
-        '<li><a class="invite-node" href="' + tgUrl + '" target="_blank" rel="noopener noreferrer">'
-        + '<span>Telegram 专用</span>'
-        + '<span class="node-status is-tg">TG 内打开</span></a></li>');
-      nodeList.innerHTML = channelItems.join('');
-      nodeList.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', closeModal);
+      renderInviteNodes();
+      // 使用事件委托，地区识别完成后更新列表也能正常关闭弹窗
+      nodeList.addEventListener('click', function (event) {
+        if (event.target.closest('a')) closeModal();
       });
 
       downloadButtons.forEach(function (button) {
@@ -2168,6 +2245,7 @@
       renderNodes();
       initInviteDownloadModal();
       probeAllNodes(); // 需在节点区和邀请弹窗列表都渲染完后再探测
+      initVisitorRegion(); // 异步识别，不阻塞现有节点和下载入口
       initBookmarkModal();
       // logo / 玩法指南等官方站链接透传 ref
       document.querySelectorAll('[data-ref-link]').forEach(function (a) {
